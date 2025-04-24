@@ -38,27 +38,46 @@ class Grocery(db.Model, SerializerMixin):
     deli_id = db.Column(db.Integer, db.ForeignKey('delis.id'), nullable=False)
 
     itemscarts = db.relationship('ItemsCart', back_populates='grocery', cascade='all, delete-orphan')
-    deli = db.relationship('Deli', back_populates='grocery')
+    deli = db.relationship('Deli', back_populates='groceries')
     # user = association_proxy('itemscarts', 'user')
     # Fix (if needed): It’s okay as long as you're aware it creates a synthetic relationship
     #  to all users who've added this grocery to a cart. If that’s intentional, keep it.
 
-    serialize_rules = ('-itemscarts', '-delis')
+    serialize_rules = ('-itemscarts', '-deli')
+
+    def __repr__(self):
+        return f"<Grocery item {self.name}, category: {self.description} and {self.quantity}>"
 
 
+# class Deli(db.Model, SerializerMixin):
+#     __tablename__ = 'delis'
 
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String, nullable=False)
+#     description = db.Column(db.String)
+#     quantity = db.Column(db.Integer)
+
+#     grocery = db.relationship('Grocery', back_populates='deli', cascade='all, delete-orphan')
+    
+#     serialize_rules = ('-grocery.delis',)
 
 class Deli(db.Model, SerializerMixin):
     __tablename__ = 'delis'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, nullable=False)
-    description = db.Column(db.String)
-    quantity = db.Column(db.Integer)
+    bread_type = db.Column(db.String, nullable=False)
+    cheese_type = db.Column(db.String, nullable=False)
+    meat_type = db.Column(db.String, nullable=False)
+    # extras = db.Column(db.String)  # maybe comma-separated for now
+    quantity = db.Column(db.Integer, default=1)
 
-    grocery = db.relationship('Grocery', back_populates='deli', cascade='all, delete-orphan')
-    
-    serialize_rules = ('-grocery.delis',)
+    groceries = db.relationship('Grocery', back_populates='deli', cascade='all, delete-orphan')
+
+    serialize_rules = ('-groceries',)
+
+    def __repr__(self):
+        return f"<Deli {self.bread_type} with {self.meat_type} and {self.cheese_type}>"
+
 
 
 
