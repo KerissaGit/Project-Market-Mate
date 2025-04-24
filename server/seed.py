@@ -21,9 +21,21 @@ with app.app_context():
 
 fake = Faker()
 
+# Creating deli items for testing
+def create_delis():
+    delis = [
+        Deli(bread_type="Wheat", cheese_type="Swiss", meat_type="Turkey"),
+        Deli(bread_type="White", cheese_type="Cheddar", meat_type="Ham"),
+        Deli(bread_type="Spinach Wrap", cheese_type="Provolone", meat_type="Chicken"),
+    ]
+    db.session.add_all(delis)
+    db.session.commit()
+    return delis
+
+
 
 # Creating hard coded groceries to test
-def create_groceries():
+def create_groceries(delis):
     groceries = [
         # Breads
         Grocery(name="Whole wheat loaf", description="Bread", quantity=1),
@@ -51,9 +63,9 @@ def create_groceries():
         Grocery(name="Chicken Breasts", description="Meat", quantity=1),
 
         # Frozen
-        Grocery(name="4 Cheese Pizza", description="Frozen Pizza", quantity=1),
-        Grocery(name="Pepperoni Pizza", description="Frozen Pizza", quantity=1),
-        Grocery(name="Supreme Pizza", description="Frozen Pizza", quantity=1),
+        Grocery(name="4 Cheese Pizza", description="Pizza", quantity=1),
+        Grocery(name="Pepperoni Pizza", description="Pizza", quantity=1),
+        Grocery(name="Supreme Pizza", description="Pizza", quantity=1),
 
         # Fruits
         Grocery(name="Bananas", description="Fruit", quantity=1),
@@ -73,6 +85,12 @@ def create_groceries():
         Grocery(name="Mayonnaise", description="Condiment", quantity=1),
         Grocery(name="BBQ Sauce", description="Condiment", quantity=1),
         Grocery(name="Ranch Dressing", description="Condiment", quantity=1),
+
+        # # Deli Test
+        Grocery(name="Turkey Sandwich", description="Deli Item", quantity=1, deli_id=delis[0].id),
+        Grocery(name="Ham Sandwich", description="Deli Item", quantity=1, deli_id=delis[1].id),
+        Grocery(name="Chicken Wrap", description="Deli Item", quantity=1, deli_id=delis[2].id),
+        
     ]
 
     db.session.add_all(groceries)
@@ -95,6 +113,7 @@ def create_users():
     return users
 
 
+
 # Needs to be updated and modified
 # def create_items_cart(groceries, deli):
 #     itemcarts = []
@@ -113,9 +132,14 @@ def create_users():
 
 
 
-
 if __name__ == '__main__':
     fake = Faker()
     with app.app_context():
-        print("Starting seed...")
-        # Seed code goes here!
+        print("Starting database...🌱")
+        db.drop_all()
+        db.create_all()
+
+        delis = create_delis()
+        groceries = create_groceries(delis)
+
+        print(f"✅ Seeded {len(groceries)} groceries and {len(delis)} delis.")
