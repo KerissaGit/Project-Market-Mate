@@ -35,7 +35,7 @@ def create_delis():
 
 
 # Creating hard coded groceries to test
-def create_groceries():
+def create_groceries(delis):
     groceries = [
         # Breads
         Grocery(name="Whole wheat loaf", description="Bread", quantity=1),
@@ -87,9 +87,9 @@ def create_groceries():
         Grocery(name="Ranch Dressing", description="Condiment", quantity=1),
 
         # # Deli Test
-        # Grocery(name="Turkey Sandwich", description="Deli Item", quantity=1, deli_id=delis[0].id),
-        # Grocery(name="Ham Sandwich", description="Deli Item", quantity=1, deli_id=delis[1].id),
-        # Grocery(name="Chicken Wrap", description="Deli Item", quantity=1, deli_id=delis[2].id),
+        Grocery(name="Turkey Sandwich", description="Deli Item", quantity=1, deli_id=delis[0].id),
+        Grocery(name="Ham Sandwich", description="Deli Item", quantity=1, deli_id=delis[1].id),
+        Grocery(name="Chicken Wrap", description="Deli Item", quantity=1, deli_id=delis[2].id),
         
     ]
 

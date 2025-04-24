@@ -35,7 +35,7 @@ class Grocery(db.Model, SerializerMixin):
     description = db.Column(db.String)
     image = db.Column(db.String)
     quantity = db.Column(db.Integer)
-    deli_id = db.Column(db.Integer, db.ForeignKey('delis.id'), nullable=False)
+    deli_id = db.Column(db.Integer, db.ForeignKey('delis.id'), nullable=True)
 
     itemscarts = db.relationship('ItemsCart', back_populates='grocery', cascade='all, delete-orphan')
     deli = db.relationship('Deli', back_populates='groceries')
