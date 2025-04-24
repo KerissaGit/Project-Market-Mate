@@ -56,7 +56,7 @@ class Deli(db.Model, SerializerMixin):
     description = db.Column(db.String)
     quantity = db.Column(db.Integer)
 
-    grocery = db.relationship('Grocery', back_populates='delis', cascade='all, delete-orphan')
+    grocery = db.relationship('Grocery', back_populates='deli', cascade='all, delete-orphan')
     
     serialize_rules = ('-grocery.delis',)
 
@@ -71,6 +71,6 @@ class User(db.Model, SerializerMixin):
     _password_hash = db.Column(db.String, nullable=False)
 
     itemscarts = db.relationship('ItemsCart', back_populates='user', cascade='all, delete-orphan')
-    groceries = association_proxy('itemscarts',groceries)
+    groceries = association_proxy('itemscarts', 'grocery')
 
     serialize_rules = ('-groceries', '-_password_hash', '-itemscarts.user')

@@ -4,12 +4,14 @@
 from flask import request, jsonify, make_response, session
 from flask_restful import Resource
 from sqlalchemy.exc import NoResultFound
-from flask_cors import flask_cors
+from flask_cors import CORS
 # from datetime import datetime
 
 # Local imports
 from config import app, db, api, bcrypt
 from models import User, ItemsCart, Grocery, Deli
+
+CORS(app)
 
 
 
@@ -52,9 +54,9 @@ class Groceries(Resource):
 
 
 
-class Deli(Resource):
+class Delis(Resource):
     def get(self):
-        delis = db.session.execute(db.select(Deli).scalars().all()
+        delis = db.session.execute(db.select(Deli)).scalars().all()
         return make_response([deli.to_dict() for deli in delis], 200)
 
 

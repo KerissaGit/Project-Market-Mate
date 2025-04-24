@@ -5,3 +5,174 @@
   --text: hsla(0, 0%, 100%, 0.88);
 }
 
+/* index.css */
+
+/* Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ECEFF1; /* Light Gray */
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Container Utility */
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Header */
+header {
+  background-color: #BBDEFB; /* Sky Blue */
+  padding: 20px;
+  text-align: center;
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-bottom: 2px solid #C8E6C9;
+}
+
+/* Footer */
+footer {
+  background-color: #BBDEFB;
+  padding: 15px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #555;
+  border-top: 2px solid #C8E6C9;
+}
+
+/* Buttons */
+button {
+  cursor: pointer;
+  padding: 10px 20px;
+  border: none;
+  font-size: 1rem;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+button.primary {
+  background-color: #FFAB91; /* Vibrant Coral */
+  color: white;
+}
+
+button.primary:hover {
+  background-color: #ff8a65;
+}
+
+button.secondary {
+  background-color: #C8E6C9; /* Light Mint */
+  color: #333;
+}
+
+button.secondary:hover {
+  background-color: #a5d6a7;
+}
+
+/* Grocery List Page */
+.grocery-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 20px;
+}
+
+.grocery-card {
+  background-color: #FFF9C4; /* Pale Yellow */
+  padding: 15px;
+  border-radius: 8px;
+  width: 200px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.grocery-card:hover {
+  transform: scale(1.05);
+}
+
+.grocery-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+/* Deli Form */
+.deli-form {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+.deli-form h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.deli-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.deli-form select, 
+.deli-form input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* User Auth Pages */
+.user-form {
+  background-color: white;
+  padding: 40px;
+  max-width: 500px;
+  margin: 30px auto;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.user-form h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.user-form input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #bbb;
+}
+
+/* General Utility */
+.text-center {
+  text-align: center;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.mt-4 {
+  margin-top: 1.5rem;
+}
