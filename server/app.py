@@ -2,12 +2,12 @@
 
 # Imports from config
 from config import app, db, api
-from flask import make_response, session, jsonify
+from flask import make_response, session, jsonify, request
 from flask_restful import Resource
 from sqlalchemy.exc import NoResultFound
 
 # Models
-from models import User, ItemsCart, Grocery, Deli
+from models import User, ItemsCart, Grocery, Deli, db
 
 
 # API Resources
@@ -79,6 +79,56 @@ class Delis(Resource):
     def get(self):
         delis = db.session.execute(db.select(Deli)).scalars().all()
         return make_response([deli.to_dict() for deli in delis], 200)
+
+    def post(self):
+        data = request.get_json()
+        try:
+            new_deli = Deli(
+                bread_type=data['bread_type'],
+                cheese_type=data['cheese_type'],
+                meat_type=data['meat_type'],
+                quantity=data.get('quantity', 1)
+            )
+            db.session.add(new_deli)
+            # db.session.commit()
+        #     return make_response(new_deli.to_dict(), 201)
+        # except Exception as e:
+        #     return make_response({"error": str(e)}, 400)
+        
+        # Working to add Deli to Grocery And Cart below. 
+
+            db.session.flush()
+
+            grocery_name = f"{new_deli.bread_type} with {new_deli.meat_type} and {new_deli.cheese_type}"
+            grocery_description = "Deli Item"
+
+            new_grocery = Grocery(
+                name=grocery_name,
+                description=grocery_description,
+                quantity=new_deli.quantity,
+                deli_id=new_deli.id
+            )
+            db.session.add(new_grocery)
+            db.session.flush()
+
+            # Add to ItemsCart (hardcoded user_id for now)
+            new_cart_item = ItemsCart(
+                name=grocery_name,
+                description=grocery_description,
+                quantity=new_deli.quantity,
+                grocery_id=new_grocery.id,
+                user_id=1  # 💡 Update when auth is done
+            )
+            db.session.add(new_cart_item)
+
+            db.session.commit()
+
+            return make_response(new_cart_item.to_dict(), 201)
+
+        except Exception as e:
+            db.session.rollback()
+            return make_response({"error": str(e)}, 400)
+
 
 
 
