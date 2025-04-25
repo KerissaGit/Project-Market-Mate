@@ -11,7 +11,6 @@ import Groceries from "./Groceries";
 function App() {
   return(
     <div className="body">
-      <h1>Market Mate App</h1>
       <Header />
       <Groceries />
       <Footer />
