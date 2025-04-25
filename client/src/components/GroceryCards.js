@@ -14,7 +14,7 @@ function GroceryCards({ grocery }) {
             // USER_ID is hard coded now since User is not set up yet!! FIX ME!!
         };
 
-        fetch("http://localhost:5555/itemscarts", {
+        fetch("http://localhost:5555/itemscart", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

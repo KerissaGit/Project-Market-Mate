@@ -7,13 +7,13 @@ function ItemsCart(){
     const [cartItems, setCartItems] = useState([]);
 
     useEffect(() => { 
-        fetch("http://localhost:5555/itemscarts/1") //FIX ME!!! ADJUST FOR USERS LOGIN <id:>
+        fetch("http://localhost:5555/itemscart/user/1") //FIX ME!!! ADJUST FOR USERS LOGIN <id:>
             .then(resp => resp.json())
             .then(data => setCartItems(data));
     }, []);
 
     const handleRemove = (id) => {
-        fetch(`http://localhost:5555/itemscarts/${id}`, {
+        fetch(`http://localhost:5555/itemscart/${id}`, {
             method: "DELETE"
         }).then(() => {
             setCartItems(cartItems.filter(item => item.id !== id));
@@ -21,7 +21,7 @@ function ItemsCart(){
     };
 
     const handleUpdate = (id, newQuantity) => {
-        fetch(`http://localhost:5555/itemscarts/${id}`, {
+        fetch(`http://localhost:5555/itemscart/${id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json"},
             body: JSON.stringify({ quantity: newQuantity})
@@ -44,7 +44,7 @@ function ItemsCart(){
                         <input
                             type="number"
                             value={item.quantity}
-                            OnChange={(e) => handleUpdate(item.id, parseInt(e.target.value))}
+                            onChange={(e) => handleUpdate(item.id, parseInt(e.target.value))}
                         />
                     </p>
                     <button onClick={() => handleRemove(item.id)}>Remove</button>

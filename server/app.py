@@ -81,6 +81,15 @@ class Delis(Resource):
         return make_response([deli.to_dict() for deli in delis], 200)
 
 
+
+# App routes
+@app.route('/itemscart/user/<int:user_id>')
+def get_user_cart(user_id):
+    cart_items = ItemsCart.query.filter_by(user_id=user_id).all()
+    return make_response([item.to_dict() for item in cart_items], 200)
+
+
+
 # Register resources
 api.add_resource(Index, '/')
 api.add_resource(Users, '/users')
