@@ -30,11 +30,16 @@ class ItemsCart(db.Model, SerializerMixin):
 class Grocery(db.Model, SerializerMixin):
     __tablename__ = 'groceries'
 
+    valid_descriptions = [
+        "Bread", "Cheese", "Condiment", "Dairy", "Eggs", "Fruit", "Household",
+        "Meat", "Pizza", "Vegetable", "Deli Item", "Other"
+    ]
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    description = db.Column(db.String)
+    description = db.Column(db.String, nullable=False)
     image = db.Column(db.String)
-    quantity = db.Column(db.Integer)
+    quantity = db.Column(db.Integer, default=1)
     deli_id = db.Column(db.Integer, db.ForeignKey('delis.id'), nullable=True)
 
     itemscarts = db.relationship('ItemsCart', back_populates='grocery', cascade='all, delete-orphan')
@@ -44,6 +49,20 @@ class Grocery(db.Model, SerializerMixin):
     #  to all users who've added this grocery to a cart. If that’s intentional, keep it.
 
     serialize_rules = ('-itemscarts', '-deli')
+
+
+    @validates('description')
+    def validate_description(self, key, value):
+        if value not in self.valid_descriptions:
+            raise ValueError(f"Invalid category '{value}'. Must be one of: {', '.join(self.valid_descriptions)}")
+        return value
+
+    @validates('deli_id')
+    def validate_deli_id(self, key, value):
+        if self.description == "Deli Item" and value is None:
+            raise ValueError("Deli items must have a deli_id.")
+        return value
+
 
     def __repr__(self):
         return f"<Grocery item {self.name}, category: {self.description} and {self.quantity}>"

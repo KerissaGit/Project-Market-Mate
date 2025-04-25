@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import GroceryCards from "./GroceryCards";
+import GroceryForm from "./GroceryForm";
 
 
 function Groceries() {
@@ -12,6 +13,12 @@ function Groceries() {
             .catch((error) => console.error("Error fetching groceries:", error));
     }, []);
 
+
+    const handleNewGrocery = (newItem) => {
+        setGroceries([...groceries, newItem]);
+    };
+    
+
     return (
         <div>
             <h2>Groceries Page</h2>
@@ -20,6 +27,7 @@ function Groceries() {
                     <GroceryCards key={item.id} grocery={item} />
                 ))}
             </div>
+            <GroceryForm onNewGrocery={handleNewGrocery} />
         </div>
     );
 }

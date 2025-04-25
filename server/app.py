@@ -5,9 +5,11 @@ from config import app, db, api
 from flask import make_response, session, jsonify
 from flask_restful import Resource
 from sqlalchemy.exc import NoResultFound
-
+from flask_cors import CORS
 # Models
 from models import User, ItemsCart, Grocery, Deli
+
+CORS(app)
 
 
 # API Resources
@@ -72,6 +74,32 @@ class Groceries(Resource):
         groceries = db.session.execute(db.select(Grocery)).scalars().all()
         return make_response([grocery.to_dict() for grocery in groceries], 200)
 
+    def post(self):
+        data = request.get_json()
+        try:
+            grocery = Grocery(
+                name=data['name'],
+                description=data['description'],
+                quantity=data.get('quantity', 1),
+                image=data.get('image'),
+                deli_id=data.get('deli_id')
+            )
+            db.session.add(grocery)
+            db.session.commit()
+            return make_response(grocery.to_dict(), 201)
+        except ValueError as ve:
+            return make_response({"error": str(ve)}, 422)
+        except Exception as e:
+            return make_response({"error": str(e)}, 400)
+
+
+
+class SingleGrocery(Resource):
+    def delete(self, grocery_id):
+        grocery = Grocery.query.get_or_404(grocery_id)
+        db.session.delete(grocery)
+        db.session.commit()
+        return make_response({}, 204)
 
 
 
@@ -96,6 +124,7 @@ api.add_resource(Users, '/users')
 api.add_resource(ItemsCarts, '/itemscart')
 api.add_resource(SingleCartItem, '/itemscart/<int:item_id>')
 api.add_resource(Groceries, '/groceries')
+api.add_resource(SingleGrocery, '/groceries/<int:grocery_id>')
 api.add_resource(Delis, '/deli')
 
 

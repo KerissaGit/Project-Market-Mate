@@ -8,6 +8,8 @@ import Footer from "./Footer";
 import Groceries from "./Groceries";
 import HomePage from "./HomePage";
 import ItemsCart from "./ItemsCart";
+import Deli from "./Deli";
+
 
 
 function App() {
@@ -16,10 +18,12 @@ function App() {
       <Header />
       <HomePage />
       <Groceries />
+      <Deli />
       <ItemsCart />
       <Footer />
     </div>
   )  
 }
+
 
 export default App;
