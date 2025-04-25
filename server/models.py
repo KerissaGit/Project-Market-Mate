@@ -26,42 +26,6 @@ class ItemsCart(db.Model, SerializerMixin):
     serialize_rules = ('-grocery.itemscarts', '-user.itemscarts')
 
 
-    @app.route('/itemscarts/<int:user_id>', methods=['GET'])
-    def get_items_cart(user_id):
-        cart_items = ItemsCart.query.filter_by(user_id=user_id).all()
-        return [item.to_dict() for item in cart_items], 200
-
-    @app.route('/itemscarts', methods=['POST'])
-    def add_to_cart():
-        data = request.get_json()
-
-        new_item = ItemsCart(
-            name=data['name'],
-            description=data['description'],
-            quantity=data['quantity'],
-            grocery_id=data['grocery_id'],
-            user_id=data['user_id']
-        )
-        db.session.add(new_item)
-        db.session.commit()
-        return new_item.to_dict(), 201
-
-    @app.route('/itemscarts/<int:item_id>', methods=['PATCH'])
-    def update_cart_item(item_id):
-        data = request.get_json()
-        item = ItemsCart.query.get_or_404(item_id)
-        item.quantity = data.get('quantity', item.quantity)
-        db.session.commit()
-        return item.to_dict(), 200
-
-    @app.route('/itemscarts/<int:item_id>', methods=['DELETE'])
-    def delete_cart_item(item_id):
-        item = ItemsCart.query.get_or_404(item_id)
-        db.session.delete(item)
-        db.session.commit()
-        return {}, 204
-
-
 
 class Grocery(db.Model, SerializerMixin):
     __tablename__ = 'groceries'

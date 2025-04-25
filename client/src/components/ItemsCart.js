@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import Groceries from "./Groceries";
+// import Groceries from "./Groceries";
 
 
 function ItemsCart(){
