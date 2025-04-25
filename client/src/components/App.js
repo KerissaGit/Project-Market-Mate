@@ -6,14 +6,17 @@ import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Groceries from "./Groceries";
+import HomePage from "./HomePage";
+import ItemsCart from "./ItemsCart";
 
 
 function App() {
   return(
     <div className="body">
-      <h1>Market Mate App</h1>
       <Header />
+      <HomePage />
       <Groceries />
+      <ItemsCart />
       <Footer />
     </div>
   )  

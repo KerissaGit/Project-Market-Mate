@@ -48,8 +48,8 @@ def create_groceries(delis):
         Grocery(name="1 gallon Almond Milk", description="Milk", quantity=1),
 
         # Household
-        Grocery(name="6-pack", description="Household", quantity=1),
-        Grocery(name="2 rolls", description="Household", quantity=1),
+        Grocery(name="Toilet Paper", description="Household", quantity=1),
+        Grocery(name="Paper Towels", description="Household", quantity=1),
         Grocery(name="Dish Soap", description="Household", quantity=1),
 
         # Cheeses
@@ -96,6 +96,12 @@ def create_groceries(delis):
     db.session.add_all(groceries)
     db.session.commit()
     return groceries
+
+    @validates('deli_id')
+    def validate_deli_id(self, key, value):
+        if self.description == "Deli Item" and value is None:
+            raise ValueError("Deli items must have a deli_id.")
+        return value
 
 
 

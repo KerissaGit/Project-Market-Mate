@@ -49,17 +49,7 @@ class Grocery(db.Model, SerializerMixin):
         return f"<Grocery item {self.name}, category: {self.description} and {self.quantity}>"
 
 
-# class Deli(db.Model, SerializerMixin):
-#     __tablename__ = 'delis'
 
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String, nullable=False)
-#     description = db.Column(db.String)
-#     quantity = db.Column(db.Integer)
-
-#     grocery = db.relationship('Grocery', back_populates='deli', cascade='all, delete-orphan')
-    
-#     serialize_rules = ('-grocery.delis',)
 
 class Deli(db.Model, SerializerMixin):
     __tablename__ = 'delis'
