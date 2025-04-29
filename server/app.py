@@ -74,6 +74,7 @@ class Groceries(Resource):
         groceries = db.session.execute(db.select(Grocery)).scalars().all()
         return make_response([grocery.to_dict() for grocery in groceries], 200)
 
+
     def post(self):
         data = request.get_json()
         try:
@@ -84,8 +85,10 @@ class Groceries(Resource):
                 image=data.get('image'),
                 deli_id=data.get('deli_id')
             )
+
             db.session.add(grocery)
             db.session.commit()
+            
             return make_response(grocery.to_dict(), 201)
         except ValueError as ve:
             return make_response({"error": str(ve)}, 422)
