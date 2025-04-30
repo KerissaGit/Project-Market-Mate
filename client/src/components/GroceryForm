@@ -1,0 +1,47 @@
+import React, { useState } from "react";
+
+function GroceryForm({ onNewGrocery }) {
+    const [formData, setFormData] = useState({
+        name: "",
+        description: "",
+        quantity: 1,
+        image: ""
+    });
+
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        fetch("http://localhost:5555/groceries", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData)
+        })
+        .then(resp => resp.json())
+        .then(newItem => {
+            onNewGrocery(newItem);
+            setFormData({ name: "", description: "", quantity: 1, image: "" });
+        });
+    };
+
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <h3>Don't see an Item you want?</h3>
+            <h3>Add a Grocery Item Here</h3>
+            <input name="name" value={formData.name} onChange={handleChange} placeholder="e.g. Hamburger Buns" required />
+            <input name="description" value={formData.description} onChange={handleChange} placeholder="e.g. Bread" required />
+            <input name="quantity" type="number" min="1" value={formData.quantity} onChange={handleChange} />
+            {/* <input name="image" value={formData.image} onChange={handleChange} placeholder="Optional image URL" /> */}
+            <button type="submit">Add Item</button>
+        </form>
+    );
+}
+
+
+export default GroceryForm;

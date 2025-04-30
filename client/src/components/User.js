@@ -32,11 +32,11 @@ function User() {
   return (
     <div className="body">
       <Header logoutUser={logoutUser} />
-      {
-        loggedInUser ?
-          <Outlet context={[loggedInUser, setLoggedInUser]} /> :
+      {loggedInUser ? (
+          <Outlet context={[loggedInUser, setLoggedInUser]} /> 
+      ) : (
           <Auth setUser={setLoggedInUser} />
-      }
+      )}
     </div>
   );
 }

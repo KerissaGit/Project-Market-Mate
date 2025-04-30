@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { Container, TextField, Button, Typography, Box } from '@mui/material';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 
 function Auth({ setUser }) {
   const [signUp, setSignUp] = useState(true);
 
-  // Validation schemas
   const signupSchema = yup.object().shape({
     username: yup.string().min(5).max(15).required('Username is required'),
     email: yup.string().email('Invalid email').required('Email is required'),
@@ -68,16 +66,15 @@ function Auth({ setUser }) {
       .catch(err => console.error('Network error:', err));
   };
 
-
   return (
-    <Container maxWidth="sm" sx={{ mt: 4 }}>
-      <Typography variant="h5" align="center" gutterBottom>
+    <div style={{ maxWidth: '400px', margin: '40px auto', fontFamily: 'Arial, sans-serif' }}>
+      <h2 style={{ textAlign: 'center' }}>
         {signUp ? 'Create an Account' : 'Login to Your Account'}
-      </Typography>
+      </h2>
 
-      <Button variant="text" onClick={toggleFormMode} sx={{ mb: 2 }}>
+      <button onClick={toggleFormMode} style={{ marginBottom: '20px', background: 'none', border: 'none', color: 'blue', cursor: 'pointer' }}>
         {signUp ? 'Already have an account? Login' : 'Need an account? Sign up'}
-      </Button>
+      </button>
 
       <Formik
         initialValues={signUp ? initialSignupValues : initialLoginValues}
@@ -85,120 +82,73 @@ function Auth({ setUser }) {
         onSubmit={handleFormSubmit}
       >
         {({ handleSubmit, values, handleChange, errors, touched }) => (
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
-          >
-            <TextField
-              name="username"
-              label="Username"
-              fullWidth
-              value={values.username}
-              onChange={handleChange}
-              error={touched.username && Boolean(errors.username)}
-              helperText={touched.username && errors.username}
-            />
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }} noValidate>
+            <div>
+              <input
+                name="username"
+                placeholder="Username"
+                value={values.username}
+                onChange={handleChange}
+                style={{ width: '100%', padding: '8px' }}
+              />
+              {touched.username && errors.username && (
+                <div style={{ color: 'red', fontSize: '12px' }}>{errors.username}</div>
+              )}
+            </div>
 
             {signUp && (
-              <TextField
-                name="email"
-                label="Email"
-                fullWidth
-                value={values.email}
-                onChange={handleChange}
-                error={touched.email && Boolean(errors.email)}
-                helperText={touched.email && errors.email}
-              />
+              <div>
+                <input
+                  name="email"
+                  placeholder="Email"
+                  value={values.email}
+                  onChange={handleChange}
+                  style={{ width: '100%', padding: '8px' }}
+                />
+                {touched.email && errors.email && (
+                  <div style={{ color: 'red', fontSize: '12px' }}>{errors.email}</div>
+                )}
+              </div>
             )}
 
-            <TextField
-              name="password"
-              label="Password"
-              type="password"
-              fullWidth
-              value={values.password}
-              onChange={handleChange}
-              error={touched.password && Boolean(errors.password)}
-              helperText={touched.password && errors.password}
-            />
-
-            {signUp && (
-              <TextField
-                name="passwordConfirmation"
-                label="Confirm Password"
+            <div>
+              <input
+                name="password"
                 type="password"
-                fullWidth
-                value={values.passwordConfirmation}
+                placeholder="Password"
+                value={values.password}
                 onChange={handleChange}
-                error={touched.passwordConfirmation && Boolean(errors.passwordConfirmation)}
-                helperText={touched.passwordConfirmation && errors.passwordConfirmation}
+                style={{ width: '100%', padding: '8px' }}
               />
+              {touched.password && errors.password && (
+                <div style={{ color: 'red', fontSize: '12px' }}>{errors.password}</div>
+              )}
+            </div>
+
+            {signUp && (
+              <div>
+                <input
+                  name="passwordConfirmation"
+                  type="password"
+                  placeholder="Confirm Password"
+                  value={values.passwordConfirmation}
+                  onChange={handleChange}
+                  style={{ width: '100%', padding: '8px' }}
+                />
+                {touched.passwordConfirmation && errors.passwordConfirmation && (
+                  <div style={{ color: 'red', fontSize: '12px' }}>{errors.passwordConfirmation}</div>
+                )}
+              </div>
             )}
 
-            <Button type="submit" variant="contained" color="primary">
+            <button type="submit" style={{ padding: '10px', backgroundColor: 'blue', color: 'white', border: 'none' }}>
               {signUp ? 'Register' : 'Login'}
-            </Button>
-          </Box>
+            </button>
+          </form>
         )}
       </Formik>
-    </Container>
+    </div>
   );
 }
 
 export default Auth;
-
-
-
-
-
-// import React, { useState } from "react";
-// import { Formik, FieldArry } from 'formik';
-// import * as yup from 'yup';
-
-// function Auth(){
-
-
-//     const handleFormSubmit = (values) => {
-//         const endpoint = signup ? '/signup' : '/login';
-      
-//         const payload = signup
-//           ? {
-//               username: values.username,
-//               email: values.email,
-//               password: values.password,
-//             }
-//           : {
-//               username: values.username,
-//               password: values.password,
-//             };
-      
-//         fetch(endpoint, {
-//           method: 'POST',
-//           headers: { 'Content-Type': 'application/json' },
-//           credentials: 'include', // required for session cookies
-//           body: JSON.stringify(payload),
-//         })
-//           .then((resp) => {
-//             if (resp.ok) {
-//               return resp.json();
-//             }
-//             throw new Error('Auth failed');
-//           })
-//           .then((user) => {
-//             localStorage.setItem('loggedInUser', JSON.stringify(user));
-//             setUser(user); // Update to match your state key
-//           })
-//           .catch((err) => {
-//             console.error(err.message);
-//           });
-//       };
-      
-
-
-// }
-
-
-// export default Auth;
-
