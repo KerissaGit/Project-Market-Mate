@@ -97,8 +97,29 @@ class User(db.Model, SerializerMixin):
     username = db.Column(db.String, nullable=False)
     email = db.Column(db.String)
     _password_hash = db.Column(db.String, nullable=False)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     itemscarts = db.relationship('ItemsCart', back_populates='user', cascade='all, delete-orphan')
     groceries = association_proxy('itemscarts', 'grocery')
 
-    serialize_rules = ('-groceries', '-_password_hash', '-itemscarts.user')
+
+    @property
+    def password_hash(self):
+        return self._password_hash
+
+    @password_hash.setter
+    def password_hash(self, password):
+        self._password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+
+    @validates('email')
+    def validate_email(self, key, value):
+        if value and '@' not in value:
+            raise ValueError('Invalid email address.')
+        return value
+
+    def authenticate(self, password):
+        return check_password_hash(self._password_hash, password)
+
+    # serialize_rules = ('-groceries', '-_password_hash', '-itemscarts.user')
+    serialize_rules = ('-groceries', '-_password_hash', '-itemscarts.user', '-created_at', '-updated_at')

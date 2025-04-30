@@ -22,18 +22,16 @@ metadata = MetaData(naming_convention={
     "ck": "ck_%(table_name)s_%(constraint_name)s",
     "pk": "pk_%(table_name)s"
 })
+
 db = SQLAlchemy(metadata=metadata)
 migrate = Migrate(app, db)
 db.init_app(app)
 
-# Instantiate REST API
 api = Api(app)
 bcrypt = Bcrypt(app)
+CORS(app, supports_credentials=True)
 
-# Instantiate CORS
-CORS(app)
 
 # Secret key for session management (Test from NGP)
-# app.secret_key = b'E%t\x95o\x84\x01|8b\xd3\xfa\xf9!\xeb\xf1'
-# CORS(app, supports_credentials=True)
+app.secret_key = b'E%t\x95o\x84\x01|8b\xd3\xfa\xf9!\xeb\xf1'
 

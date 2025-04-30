@@ -9,7 +9,7 @@ from flask_cors import CORS
 # Models
 from models import User, ItemsCart, Grocery, Deli
 
-CORS(app)
+CORS(app, supports_credentials=True)
 
 
 # API Resources
@@ -23,7 +23,18 @@ class Users(Resource):
     def get(self):
         users = db.session.execute(db.select(User)).scalars().all()
         users_list = [user.to_dict() for user in users]
+        db.session.add(user)
+        db.session.commit()
         return make_response({"users": users_list}, 200)
+
+
+class UsersById(Resource):
+    def get(self, id):
+        try:
+            user = db.session.execute(db.select(User).filter_by(id=id)).scalar_one()
+            return make_response(user.to_dict(), 200)
+        except NoResultFound:
+            return make_response({"error": "User not found"}, 404)
 
 
 
@@ -88,7 +99,7 @@ class Groceries(Resource):
 
             db.session.add(grocery)
             db.session.commit()
-            
+
             return make_response(grocery.to_dict(), 201)
         except ValueError as ve:
             return make_response({"error": str(ve)}, 422)
@@ -120,10 +131,57 @@ def get_user_cart(user_id):
     return make_response([item.to_dict() for item in cart_items], 200)
 
 
+@app.route('/signup', methods=['POST'])
+def signup():
+    data = request.get_json()
+    try:
+        user = User(
+            username=data['username'],
+            email=data['email']
+        )
+        user.password_hash = data['password']
+        db.session.add(user)
+        db.session.commit()
+
+        session['user_id'] = user.id
+        return make_response(user.to_dict(), 201)
+    except Exception as e:
+        return make_response({'error': str(e)}, 400)
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    user = db.session.execute(
+        db.select(User).filter_by(username=data['username'])
+    ).scalar_one_or_none()
+
+    if user and user.authenticate(data['password']):
+        session['user_id'] = user.id
+        return make_response(user.to_dict(), 200)
+    return make_response({'error': 'Invalid credentials'}, 401)
+
+
+@app.route('/me', methods=['GET'])
+def get_logged_in_user():
+    user_id = session.get('user_id')
+    if user_id:
+        user = User.query.get(user_id)
+        return make_response(user.to_dict(), 200)
+    return make_response({'error': 'Unauthorized'}, 401)
+
+
+@app.route('/logout', methods=['DELETE'])
+def logout():
+    session.pop('user_id', None)
+    return make_response({}, 204)
+
+
 
 # Register resources
 api.add_resource(Index, '/')
 api.add_resource(Users, '/users')
+api.add_resource(UsersById, '/users/<int:id>')
 api.add_resource(ItemsCarts, '/itemscart')
 api.add_resource(SingleCartItem, '/itemscart/<int:item_id>')
 api.add_resource(Groceries, '/groceries')

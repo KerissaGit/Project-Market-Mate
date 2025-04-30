@@ -9,6 +9,7 @@ import Groceries from "./Groceries";
 import HomePage from "./HomePage";
 import ItemsCart from "./ItemsCart";
 import Deli from "./Deli";
+import User from "./User";
 
 
 
@@ -17,6 +18,7 @@ function App() {
     <div className="body">
       <Header />
       <HomePage />
+      <User />
       <Groceries />
       <Deli />
       <ItemsCart />
