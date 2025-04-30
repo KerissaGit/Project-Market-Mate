@@ -22,22 +22,23 @@ function Deli() {
             headers: {
                 "Content-Type": "application/json",
             },
+            credentials: "include",
             body: JSON.stringify(newDeli),
         })
         .then((resp) => {
-            if (!resp.ok) throw new Error("Failed to create deli item");
+            if (!resp.ok) throw new Error("Failed to create deli item.");
             return resp.json();
         })
         .then((data) => {
+            // alert(`Custom ${data.meat_type} and ${data.cheese_type} on ${data.bread_type} created and added to cart!`);
             alert(`${data.name} created and added to cart!`);
-            // Optionally: clear the form
             setBread("");
             setCheese("");
             setMeat("");
         })
         .catch((error) => {
-            console.error("Error creating sandwich:", error);
-            alert("Failed to create sandwich");
+            console.error("Error creating sandwich/wrap:", error);
+            alert("Failed to create sandwich/wrap");
         });
     };
 

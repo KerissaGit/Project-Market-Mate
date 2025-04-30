@@ -2,7 +2,7 @@
 
 # Imports from config
 from config import app, db, api
-from flask import make_response, session, jsonify
+from flask import make_response, session, jsonify, request
 from flask_restful import Resource
 from sqlalchemy.exc import NoResultFound
 from flask_cors import CORS
@@ -121,6 +121,52 @@ class Delis(Resource):
     def get(self):
         delis = db.session.execute(db.select(Deli)).scalars().all()
         return make_response([deli.to_dict() for deli in delis], 200)
+
+    def post(self):
+        data = request.get_json()
+        user_id = session.get('user_id')
+
+        if not user_id:
+            return make_response({"error": "User not logged in"}, 401)
+            
+        try:
+            deli = Deli(
+                bread_type=data['bread_type'],
+                cheese_type=data['cheese_type'],
+                meat_type=data['meat_type'],
+                quantity=data.get('quantity', 1)
+            )
+            db.session.add(deli)
+            db.session.commit()
+
+                        # Create a related Grocery item
+            grocery_name = f"{deli.meat_type} and {deli.cheese_type} on {deli.bread_type} Sandwich/Wrap"
+            grocery = Grocery(
+                name=grocery_name,
+                description=f"Custom deli item: {grocery_name}",
+                quantity=deli.quantity,
+                deli_id=deli.id
+            )
+            db.session.add(grocery)
+            db.session.commit()
+
+            # Optionally, also create an item in the cart (you need user_id in frontend!)
+            user_id = session.get('user_id')
+            if user_id:
+                item = ItemsCart(
+                    name=grocery.name,
+                    description=grocery.description,
+                    quantity=grocery.quantity,
+                    grocery_id=grocery.id,
+                    user_id=user_id
+                )
+                db.session.add(item)
+                db.session.commit()
+
+            return make_response(grocery.to_dict(), 201)  # return grocery instead of deli
+        except Exception as e:
+            return make_response({"error": str(e)}, 400)
+
 
 
 
