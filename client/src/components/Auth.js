@@ -180,6 +180,10 @@ function Auth({ setUser }) {
     password: yup.string().required('Password is required'),
   });
 
+  function toggleSignup() {
+    setSignUp((currentSignup) => !currentSignup)
+  }
+
   const initialSignupValues = {
     username: '',
     email: '',
@@ -232,9 +236,11 @@ function Auth({ setUser }) {
     <div style={{ maxWidth: '400px', margin: '40px auto', fontFamily: 'Arial, sans-serif' }}>
       <h2 style={{ textAlign: 'center' }}>
         {signUp ? 'Create an Account' : 'Login to Your Account'}
+        <button onClick={toggleSignup}>{signUp ? 'Create an Account' : 'Login to Your Account'}</button>
       </h2>
 
-      <button
+      <button 
+        type="button"
         onClick={toggleFormMode}
         style={{ marginBottom: '20px', background: 'none', border: 'none', color: 'blue', cursor: 'pointer' }}
       >
@@ -242,6 +248,7 @@ function Auth({ setUser }) {
       </button>
 
       <Formik
+        enableReinitialize
         initialValues={signUp ? initialSignupValues : initialLoginValues}
         validationSchema={signUp ? signupSchema : loginSchema}
         onSubmit={handleFormSubmit}
@@ -261,16 +268,17 @@ function Auth({ setUser }) {
 
             {signUp && (
               <>
-                <input
-                  name="email"
-                  placeholder="Email"
-                  value={values.email}
-                  onChange={handleChange}
-                  style={{ padding: '8px' }}
-                />
-                {touched.email && errors.email && (
-                  <div style={{ color: 'red', fontSize: '12px' }}>{errors.email}</div>
-                )}
+                {/* <label htmlFor='user'>Email:</label> */}
+                  <input
+                    name="email"
+                    placeholder="Email"
+                    value={values.email}
+                    onChange={handleChange}
+                    style={{ padding: '8px' }}
+                  />
+                  {touched.email && errors.email && (
+                    <div style={{ color: 'red', fontSize: '12px' }}>{errors.email}</div>
+                  )}
               </>
             )}
 

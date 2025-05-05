@@ -35,19 +35,22 @@ function ItemsCart(){
 
 
     return(
-        <div className="">
+        <div className="items-cart">
             <h2>Items in Cart</h2>
             {cartItems.map(item => (
                 <div key={item.id} className="grocery-card">
                     <h4>{item.name}</h4>
-                    <p>Quantity:
-                        <input
-                            type="number"
-                            value={item.quantity}
-                            onChange={(e) => handleUpdate(item.id, parseInt(e.target.value))}
-                        />
-                    </p>
-                    <button onClick={() => handleRemove(item.id)}>Remove</button>
+                    <div className="quantity-wrapper">
+                            <label htmlFor={`item-${item.id}`}>Quantity:</label>
+                            <input
+                                id={`item-${item.id}`}
+                                type="number"
+                                value={item.quantity}
+                                className="quantity-box"
+                                onChange={(e) => handleUpdate(item.id, parseInt(e.target.value))}
+                            />
+                    </div>
+                    <button className="cart-action" onClick={() => handleRemove(item.id)} style={{ marginLeft: "10px", color: "red" }}>Remove</button>
                 </div>
             ))}
             

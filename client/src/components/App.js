@@ -1,7 +1,7 @@
 import "../index.css";
-import React from "react";
+import React, { useState } from "react";
+import { Outlet } from "react-router-dom";
 // import { Switch, Route } from "react-router-dom";
-// import { Outlet } from "react-router-dom";
 
 import Header from "./Header";
 import Footer from "./Footer";
@@ -10,15 +10,28 @@ import HomePage from "./HomePage";
 import ItemsCart from "./ItemsCart";
 import Deli from "./Deli";
 import User from "./User";
+import Auth from "./Auth";
 
 
 
 function App() {
+  const [loggedInUser, setLoggedInUser ] =useState(null)
+
+  function logoutUser() {
+    setLoggedInUser(null)
+  }
+
+
   return(
     <div className="body">
-      <Header />
+      <Header logoutUser={logoutUser}/>
+      {
+        !!loggedInUser ?
+        <Outlet /> :
+        // <Auth setUser={setLoggedInUser} />
+        <User setUser={setLoggedInUser} />
+      }
       <HomePage />
-      <User />
       <Groceries />
       <Deli />
       <ItemsCart />
