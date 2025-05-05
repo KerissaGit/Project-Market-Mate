@@ -3,8 +3,8 @@
   --secondary: #fff3e0;      /* Light Cream Orange */
   --accent: #ffb74d;         /* Warm Orange */
   --bg: #f5f5f5;             /* Light Gray */
-  --card-bg: #ffffff;        /* White */
-  --header-bg: #aed581;      /* Light Green */
+  --card-bg: #f3f0dc;        /* White */
+  --header-bg: #66bb6a;      /* Light Green */
   --footer-bg: #c8e6c9;      /* Mint Green */
   --text-dark: #333;
   --text-light: #666;
@@ -106,6 +106,38 @@ button.cart-action:hover {
   color: white;
 }
 
+/* General Purpose Action Button Style */
+.action-button {
+  background-color: var(--primary); 
+  color: white;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.action-button:hover {
+  background-color: #66bb6a; 
+}
+
+
+.remove-button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.remove-button:hover {
+  background-color: #e60000;
+}
+
 
 /* Grocery List */
 .grocery-list {
@@ -125,6 +157,11 @@ button.cart-action:hover {
   border: 1px solid #ddd; 
   box-shadow: 0 6px 12px var(--shadow);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: space-between;
+  text-align: center;
 }
 
 
@@ -138,6 +175,13 @@ button.cart-action:hover {
   margin-bottom: 10px;
   color: var(--text-dark);
 }
+
+.card-button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
 
 /* Grocery Form */
 .grocery-form {
@@ -239,4 +283,75 @@ button.cart-action:hover {
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 6px;
+}
+
+
+/* Items Cart */
+.items-cart {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1rem;
+    text-align: center;
+}
+
+.cart-scroll {
+    max-height: 60vh;
+    overflow-y: auto;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.cart-item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f3f0dc;
+    border: 1px solid #ccc;
+    padding: 0.75rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.cart-item-row.checked {
+    background-color: #8af18a;
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+.item-checkbox {
+    margin-right: 2rem;
+}
+
+.item-details {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.quantity-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+.quantity-box {
+    width: 60px;
+    padding: 0.25rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.remove-button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.remove-button:hover {
+    background-color: #e60000;
 }
