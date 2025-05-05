@@ -18,7 +18,7 @@ function App() {
     <div className="body">
       <Header />
       <HomePage />
-      {/* <User /> */}
+      <User />
       <Groceries />
       <Deli />
       <ItemsCart />

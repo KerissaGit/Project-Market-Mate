@@ -47,9 +47,9 @@ function Deli() {
         <div className="deli-form">
             <h3>Create Custom Sandwich/Wrap</h3>
             <form onSubmit={handleSubmit}>
-                <label>Bread Type:</label>
+                <label>Bread/Wrap Type:</label>
                 <select value={bread} onChange={(e) => setBread(e.target.value)} required>
-                    <option value="">Select Bread</option>
+                    <option value="">Select Bread/Wrap</option>
                     <option value="Wheat">Wheat</option>
                     <option value="White">White</option>
                     <option value="Spinach Wrap">Spinach Wrap</option>

@@ -128,7 +128,7 @@ class Delis(Resource):
 
         if not user_id:
             return make_response({"error": "User not logged in"}, 401)
-            
+
         try:
             deli = Deli(
                 bread_type=data['bread_type'],
@@ -139,7 +139,7 @@ class Delis(Resource):
             db.session.add(deli)
             db.session.commit()
 
-                        # Create a related Grocery item
+            # Create a related Grocery item
             grocery_name = f"{deli.meat_type} and {deli.cheese_type} on {deli.bread_type} Sandwich/Wrap"
             grocery = Grocery(
                 name=grocery_name,
