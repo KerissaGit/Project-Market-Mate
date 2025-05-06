@@ -261,9 +261,6 @@ api.add_resource(SingleCartItem, '/itemscart/<int:item_id>')
 api.add_resource(Groceries, '/groceries')
 api.add_resource(SingleGrocery, '/groceries/<int:grocery_id>')
 api.add_resource(Delis, '/deli')
-api.add_resource(CurrentUser, '/me')
-api.add_resource(Login, '/login')
-api.add_resource(Logout, '/logout')
 
 
 # Run app
