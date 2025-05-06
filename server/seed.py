@@ -24,8 +24,8 @@ fake = Faker()
 # Creating deli items for testing
 def create_delis():
     delis = [
-        Deli(bread_type="Wheat", cheese_type="Swiss", meat_type="Turkey"),
-        Deli(bread_type="White", cheese_type="Cheddar", meat_type="Ham"),
+        Deli(bread_type="Wheat Bread", cheese_type="Swiss", meat_type="Turkey"),
+        Deli(bread_type="White Bread", cheese_type="Cheddar", meat_type="Ham"),
         Deli(bread_type="Spinach Wrap", cheese_type="Provolone", meat_type="Chicken"),
     ]
     db.session.add_all(delis)
@@ -44,8 +44,8 @@ def create_groceries(delis):
 
         # Eggs and Milk
         Grocery(name="12 large eggs", description="Eggs", quantity=1),
-        Grocery(name="1 gallon of 2% Milk", description="Milk", quantity=1),
-        Grocery(name="1 gallon Almond Milk", description="Milk", quantity=1),
+        Grocery(name="1 gallon of 2% Milk", description="Dairy", quantity=1),
+        Grocery(name="1 gallon Almond Milk", description="Dairy", quantity=1),
 
         # Household
         Grocery(name="Toilet Paper", description="Household", quantity=1),

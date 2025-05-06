@@ -4,7 +4,7 @@ from sqlalchemy.orm import validates
 from sqlalchemy import event
 from config import db, bcrypt
 from flask_bcrypt import check_password_hash
-# from datetime import datetime
+from datetime import datetime
 
 
 
@@ -30,11 +30,16 @@ class ItemsCart(db.Model, SerializerMixin):
 class Grocery(db.Model, SerializerMixin):
     __tablename__ = 'groceries'
 
+    valid_descriptions = [
+        "Bread", "Cheese", "Condiment", "Dairy", "Eggs", "Fruit", "Household",
+        "Meat", "Pizza", "Vegetable", "Deli Item", "Other"
+    ]
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    description = db.Column(db.String)
+    description = db.Column(db.String, nullable=False)
     image = db.Column(db.String)
-    quantity = db.Column(db.Integer)
+    quantity = db.Column(db.Integer, default=1)
     deli_id = db.Column(db.Integer, db.ForeignKey('delis.id'), nullable=True)
 
     itemscarts = db.relationship('ItemsCart', back_populates='grocery', cascade='all, delete-orphan')
@@ -44,6 +49,20 @@ class Grocery(db.Model, SerializerMixin):
     #  to all users who've added this grocery to a cart. If that’s intentional, keep it.
 
     serialize_rules = ('-itemscarts', '-deli')
+
+
+    @validates('description')
+    def validate_description(self, key, value):
+        if value not in self.valid_descriptions:
+            raise ValueError(f"Invalid category '{value}'. Must be one of: {', '.join(self.valid_descriptions)}")
+        return value
+
+    @validates('deli_id')
+    def validate_deli_id(self, key, value):
+        if self.description == "Deli Item" and value is None:
+            raise ValueError("Deli items must have a deli_id.")
+        return value
+
 
     def __repr__(self):
         return f"<Grocery item {self.name}, category: {self.description} and {self.quantity}>"
@@ -75,11 +94,32 @@ class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String, nullable=False)
-    email = db.Column(db.String)
+    username = db.Column(db.String, unique=True, nullable=False)
+    email = db.Column(db.String, unique=True)
     _password_hash = db.Column(db.String, nullable=False)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     itemscarts = db.relationship('ItemsCart', back_populates='user', cascade='all, delete-orphan')
     groceries = association_proxy('itemscarts', 'grocery')
 
-    serialize_rules = ('-groceries', '-_password_hash', '-itemscarts.user')
+
+    @property
+    def password_hash(self):
+        return self._password_hash
+
+    @password_hash.setter
+    def password_hash(self, password):
+        self._password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+
+    @validates('email')
+    def validate_email(self, key, value):
+        if value and '@' not in value:
+            raise ValueError('Invalid email address.')
+        return value
+
+    def authenticate(self, password):
+        return check_password_hash(self._password_hash, password)
+
+    # serialize_rules = ('-groceries', '-_password_hash', '-itemscarts.user')
+    serialize_rules = ('-groceries', '-_password_hash', '-itemscarts.user', '-created_at', '-updated_at')

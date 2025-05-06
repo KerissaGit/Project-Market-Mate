@@ -1,11 +1,15 @@
 :root {
-  --bg: #282c34;
-  --header: #fff;
-  --link: #61dafb;
-  --text: hsla(0, 0%, 100%, 0.88);
+  --primary: #81c784;        /* Soft Green */
+  --secondary: #fff3e0;      /* Light Cream Orange */
+  --accent: #ffb74d;         /* Warm Orange */
+  --bg: #f5f5f5;             /* Light Gray */
+  --card-bg: #f3f0dc;        /* White */
+  --header-bg: #66bb6a;      /* Light Green */
+  --footer-bg: #c8e6c9;      /* Mint Green */
+  --text-dark: #333;
+  --text-light: #666;
+  --shadow: rgba(0, 0, 0, 0.1);
 }
-
-/* index.css */
 
 /* Reset & Base Styles */
 * {
@@ -16,163 +20,338 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #ECEFF1; /* Light Gray */
-  color: #333;
+  background-color: var(--bg);
+  color: var(--text-dark);
   line-height: 1.6;
 }
 
-/* Container Utility */
+/* Utility Classes */
 .container {
   max-width: 1200px;
   margin: auto;
   padding: 20px;
 }
 
+.text-center {
+  text-align: center;
+}
+
+.mt-2 { margin-top: 0.5rem; }
+.mt-4 { margin-top: 1.5rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-4 { margin-bottom: 1.5rem; }
+
 /* Header */
 header {
-  background-color: #BBDEFB; /* Sky Blue */
-  padding: 20px;
+  background-color: var(--header-bg);
+  padding: 30px 20px;
   text-align: center;
-  color: #333;
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: bold;
-  border-bottom: 2px solid #C8E6C9;
+  color: var(--text-dark);
+  border-bottom: 3px solid var(--accent);
+  box-shadow: 0 4px 8px var(--shadow);
 }
 
 /* Footer */
 footer {
-  background-color: #BBDEFB;
-  padding: 15px;
+  background-color: var(--footer-bg);
+  padding: 20px;
   text-align: center;
   font-size: 0.9rem;
-  color: #555;
-  border-top: 2px solid #C8E6C9;
+  color: var(--text-light);
+  border-top: 2px solid var(--accent);
 }
 
 /* Buttons */
 button {
   cursor: pointer;
-  padding: 10px 20px;
+  padding: 12px 24px;
   border: none;
   font-size: 1rem;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
 button.primary {
-  background-color: #FFAB91; /* Vibrant Coral */
+  background-color: var(--accent);
   color: white;
 }
 
 button.primary:hover {
-  background-color: #ff8a65;
+  background-color: #ffa726;
 }
 
 button.secondary {
-  background-color: #C8E6C9; /* Light Mint */
-  color: #333;
+  background-color: var(--header-bg);
+  color: var(--text-dark);
 }
 
 button.secondary:hover {
-  background-color: #a5d6a7;
+  background-color: #9ccc65;
 }
 
-/* Grocery List Page */
+button.cart-action {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  background-color: white;
+  color: var(--accent);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+button.cart-action:hover {
+  background-color: var(--accent);
+  color: white;
+}
+
+/* General Purpose Action Button Style */
+.action-button {
+  background-color: var(--primary); 
+  color: white;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.action-button:hover {
+  background-color: #66bb6a; 
+}
+
+
+.remove-button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.remove-button:hover {
+  background-color: #e60000;
+}
+
+
+/* Grocery List */
 .grocery-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
-  padding: 20px;
+  justify-content: center;
+  gap: 20px;
+  padding: 30px 0;
 }
 
+/* Grocery Card */
 .grocery-card {
-  background-color: #FFF9C4; /* Pale Yellow */
-  padding: 15px;
-  border-radius: 8px;
-  width: 200px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
+  background-color: var(--card-bg);
+  padding: 20px;
+  width: 220px;
+  border-radius: 12px;
+  border: 1px solid #ddd; 
+  box-shadow: 0 6px 12px var(--shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: space-between;
+  text-align: center;
 }
+
 
 .grocery-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
+  box-shadow: 0 10px 20px var(--shadow);
 }
 
 .grocery-card h3 {
   font-size: 1.2rem;
   margin-bottom: 10px;
+  color: var(--text-dark);
 }
+
+.card-button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+
+/* Grocery Form */
+.grocery-form {
+  background-color: var(--card-bg);
+  border: 2px dashed var(--primary);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px var(--shadow);
+  margin: 50px auto 0 auto;
+  max-width: 700px;
+}
+
+.grocery-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--primary);
+}
+
+.grocery-form input,
+.grocery-form select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
 
 /* Deli Form */
 .deli-form {
-  background-color: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-  margin: 20px auto;
+  background-color: var(--card-bg);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px var(--shadow);
+  margin: 30px auto;
   max-width: 600px;
 }
 
 .deli-form h2 {
-  margin-bottom: 20px;
-  color: #333;
+  margin-bottom: 25px;
+  color: var(--text-dark);
+  text-align: center;
 }
 
 .deli-form label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
   font-weight: 600;
 }
 
-.deli-form select, 
+.deli-form select,
 .deli-form input[type="text"] {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   margin-bottom: 20px;
-  border-radius: 5px;
+  border-radius: 6px;
   border: 1px solid #ccc;
 }
 
-/* User Auth Pages */
+/* User Auth Form */
 .user-form {
-  background-color: white;
-  padding: 40px;
+  background-color: var(--card-bg);
+  padding: 50px;
   max-width: 500px;
-  margin: 30px auto;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  margin: 40px auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 18px var(--shadow);
 }
 
 .user-form h2 {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   text-align: center;
+  color: var(--text-dark);
 }
 
 .user-form input {
   width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border-radius: 5px;
+  padding: 14px;
+  margin: 12px 0;
+  border-radius: 6px;
   border: 1px solid #bbb;
 }
 
-/* General Utility */
-.text-center {
+
+.quantity-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quantity-wrapper label {
+  font-weight: 600;
+}
+
+.quantity-box {
+  width: 50px;
+  height: 50px;
   text-align: center;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }
 
-.mb-2 {
-  margin-bottom: 0.5rem;
+
+/* Items Cart */
+.items-cart {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1rem;
+    text-align: center;
 }
 
-.mb-4 {
-  margin-bottom: 1.5rem;
+.cart-scroll {
+    max-height: 60vh;
+    overflow-y: auto;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
-.mt-2 {
-  margin-top: 0.5rem;
+.cart-item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f3f0dc;
+    border: 1px solid #ccc;
+    padding: 0.75rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
 }
 
-.mt-4 {
-  margin-top: 1.5rem;
+.cart-item-row.checked {
+    background-color: #8af18a;
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+.item-checkbox {
+    margin-right: 2rem;
+}
+
+.item-details {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.quantity-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+.quantity-box {
+    width: 60px;
+    padding: 0.25rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.remove-button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.remove-button:hover {
+    background-color: #e60000;
 }

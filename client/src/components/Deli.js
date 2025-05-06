@@ -5,9 +5,14 @@ function Deli() {
     const [cheese, setCheese] = useState("");
     const [meat, setMeat] = useState("");
 
+function Deli() {
+    const [bread, setBread] = useState("");
+    const [cheese, setCheese] = useState("");
+    const [meat, setMeat] = useState("");
+
     const handleSubmit = (e) => {
         e.preventDefault();
-
+      
         const newDeli = {
             bread_type: bread,
             cheese_type: cheese,
@@ -17,48 +22,35 @@ function Deli() {
 
         fetch("http://localhost:5555/deli", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
             body: JSON.stringify(newDeli),
         })
         .then((resp) => {
-            if (!resp.ok) throw new Error("Failed to create deli item");
+            if (!resp.ok) throw new Error("Failed to create deli item.");
             return resp.json();
         })
         .then((data) => {
             alert(`${data.name} created and added to cart!`);
-            // Optionally: clear the form
-            setBread("");
-            setCheese("");
-            setMeat("");
+            setBread(""); setCheese(""); setMeat("");
         })
         .catch((error) => {
-            console.error("Error creating sandwich:", error);
-            alert("Failed to create sandwich");
+            console.error("Error creating sandwich/wrap:", error);
+            alert("Failed to create sandwich/wrap");
         });
     };
 
     return (
-        <div className="deli-form">
+        <div className="deli-form grocery-form">
             <h3>Create Custom Sandwich/Wrap</h3>
             <form onSubmit={handleSubmit}>
-                <label>Bread Type:</label>
+                <label>Bread/Wrap Type:</label>
                 <select value={bread} onChange={(e) => setBread(e.target.value)} required>
-                    <option value="">Select Bread</option>
+                    <option value="">Select Bread/Wrap</option>
                     <option value="Wheat">Wheat</option>
                     <option value="White">White</option>
                     <option value="Spinach Wrap">Spinach Wrap</option>
                 </select>
-
-                <label>Cheese Type:</label>
-                <select value={cheese} onChange={(e) => setCheese(e.target.value)} required>
-                    <option value="">Select Cheese</option>
-                    <option value="Cheddar">Cheddar</option>
-                    <option value="Swiss">Swiss</option>
-                    <option value="Provolone">Provolone</option>
-                </select>
-
                 <label>Meat Type:</label>
                 <select value={meat} onChange={(e) => setMeat(e.target.value)} required>
                     <option value="">Select Meat</option>
@@ -66,8 +58,15 @@ function Deli() {
                     <option value="Ham">Ham</option>
                     <option value="Chicken">Chicken</option>
                 </select>
+                <label>Cheese Type:</label>
+                <select value={cheese} onChange={(e) => setCheese(e.target.value)} required>
+                    <option value="">Select Cheese</option>
+                    <option value="Cheddar">Cheddar</option>
+                    <option value="Swiss">Swiss</option>
+                    <option value="Provolone">Provolone</option>
+                </select>
+                <button type="submit" className="action-button">Add Custom Item to Cart</button>
 
-                <button type="submit">Add Custom Item to Cart</button>
             </form>
         </div>
     );
