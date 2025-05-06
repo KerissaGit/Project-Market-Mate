@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 
 
-function ItemsCart() {
+//This file will need to be updated after the User/Auth is working and established
+
+
+function ItemsCart(){
     const [cartItems, setCartItems] = useState([]);
     const [checkedItems, setCheckedItems] = useState({});
 
-    useEffect(() => {
-        fetch("http://localhost:5555/itemscart/user/1")
+
+    useEffect(() => { 
+        fetch("http://localhost:5555/itemscart/user/1") //FIX ME!!! ADJUST FOR USERS LOGIN 
             .then(resp => resp.json())
             .then(data => {
                 setCartItems(data);

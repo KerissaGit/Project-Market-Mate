@@ -7,7 +7,7 @@ from flask_restful import Resource
 from sqlalchemy.exc import NoResultFound
 from flask_cors import CORS
 # Models
-from models import User, ItemsCart, Grocery, Deli
+from models import User, ItemsCart, Grocery, Deli, db
 
 CORS(app, supports_credentials=True)
 

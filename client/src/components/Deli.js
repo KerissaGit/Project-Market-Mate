@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 
+function Deli() {
+    const [bread, setBread] = useState("");
+    const [cheese, setCheese] = useState("");
+    const [meat, setMeat] = useState("");
 
 function Deli() {
     const [bread, setBread] = useState("");
@@ -8,6 +12,7 @@ function Deli() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+      
         const newDeli = {
             bread_type: bread,
             cheese_type: cheese,
@@ -46,7 +51,6 @@ function Deli() {
                     <option value="White">White</option>
                     <option value="Spinach Wrap">Spinach Wrap</option>
                 </select>
-
                 <label>Meat Type:</label>
                 <select value={meat} onChange={(e) => setMeat(e.target.value)} required>
                     <option value="">Select Meat</option>
@@ -54,7 +58,6 @@ function Deli() {
                     <option value="Ham">Ham</option>
                     <option value="Chicken">Chicken</option>
                 </select>
-
                 <label>Cheese Type:</label>
                 <select value={cheese} onChange={(e) => setCheese(e.target.value)} required>
                     <option value="">Select Cheese</option>
@@ -62,8 +65,8 @@ function Deli() {
                     <option value="Swiss">Swiss</option>
                     <option value="Provolone">Provolone</option>
                 </select>
-
                 <button type="submit" className="action-button">Add Custom Item to Cart</button>
+
             </form>
         </div>
     );
