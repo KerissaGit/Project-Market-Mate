@@ -196,20 +196,31 @@ function Auth({ setUser }) {
     password: '',
   };
 
-  const toggleFormMode = () => setSignUp(prev => !prev);
+  // const toggleFormMode = () => setSignUp(prev => !prev);
 
-  const handleFormSubmit = (values) => {
+  // const handleFormSubmit = (values) => {
+  //   const endpoint = signUp ? '/signup' : '/login';
+  //   const payload = signUp
+  //     ? {
+  //         username: values.username,
+  //         email: values.email,
+  //         password: values.password,
+  //       }
+  //     : {
+  //         username: values.username,
+  //         password: values.password,
+  //       };
+  function handleFormSubmit(values) {
     const endpoint = signUp ? '/signup' : '/login';
-    const payload = signUp
-      ? {
-          username: values.username,
-          email: values.email,
-          password: values.password,
-        }
-      : {
-          username: values.username,
-          password: values.password,
-        };
+    const payload = signUp ? {
+      username: values.username,
+      email: values.email,
+      password: values.password,
+    } : {
+      username: values.username,
+      password: values.password,
+  };
+
 
     fetch(endpoint, {
       method: 'POST',
@@ -233,18 +244,10 @@ function Auth({ setUser }) {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '40px auto', fontFamily: 'Arial, sans-serif' }}>
-      <h2 style={{ textAlign: 'center' }}>
-        {signUp ? 'Create an Account' : 'Login to Your Account'}
-        <button onClick={toggleSignup}>{signUp ? 'Create an Account' : 'Login to Your Account'}</button>
-      </h2>
-
-      <button 
-        type="button"
-        onClick={toggleFormMode}
-        style={{ marginBottom: '20px', background: 'none', border: 'none', color: 'blue', cursor: 'pointer' }}
-      >
-        {signUp ? 'Already have an account? Login' : 'Need an account? Sign up'}
+    <div className="auth-form">
+      <h2>{signUp ? 'Sign Up' : 'Login'}</h2>
+      <button onClick={() => setSignUp(!signUp)}>
+        {signUp ? 'Already have an account? Login' : 'Need an account? Sign Up'}
       </button>
 
       <Formik

@@ -1,14 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
-import HomePage from "./components/HomePage";
 import App from "./components/App";
+import HomePage from "./components/HomePage";
 import Groceries from "./components/Groceries";
-import User from "./components/User"; 
-
+import User from "./components/User";
+import Deli from "./components/Deli";
+import ItemsCart from "./components/ItemsCart";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />, 
+    element: <App />,
     children: [
       {
         index: true,
@@ -19,12 +20,15 @@ const router = createBrowserRouter([
         element: <Groceries />,
       },
       {
-        path: "user", 
-        element: <User />,
+        path: "deli",
+        element: <Deli />,
+      },
+      {
+        path: "itemscart",
+        element: <ItemsCart />,
       },
     ],
   },
 ]);
-
 
 export default router;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { useOutletContext } from "react-router-dom"
 
 //This file will need to be updated after the User/Auth is working and established
 
@@ -7,18 +7,21 @@ import React, { useEffect, useState } from "react";
 function ItemsCart(){
     const [cartItems, setCartItems] = useState([]);
     const [checkedItems, setCheckedItems] = useState({});
+    const [loggedInUser] = useOutletContext();
 
 
-    useEffect(() => { 
-        fetch("http://localhost:5555/itemscart/user/1") //FIX ME!!! ADJUST FOR USERS LOGIN 
-            .then(resp => resp.json())
+    useEffect(() => {
+        if (loggedInUser) {
+          fetch(`http://localhost:5555/itemscart/user/${loggedInUser.id}`)
+            .then(res => res.json())
             .then(data => {
-                setCartItems(data);
-                const checkedInit = {};
-                data.forEach(item => checkedInit[item.id] = false);
-                setCheckedItems(checkedInit);
+              setCartItems(data);
+              const checkedInit = {};
+              data.forEach(item => (checkedInit[item.id] = false));
+              setCheckedItems(checkedInit);
             });
-    }, []);
+        }
+      }, [loggedInUser]);
 
     const handleRemove = (id) => {
         fetch(`http://localhost:5555/itemscart/${id}`, {

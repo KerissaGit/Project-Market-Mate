@@ -50,17 +50,18 @@
 
 import React from 'react';
 
+
 function User({ user, onLogout }) {
   if (!user) return null;
 
+
   return (
-    <div style={{ padding: '1rem', backgroundColor: '#f5f5f5', borderBottom: '1px solid #ccc' }}>
+    <div className="user-banner">
       <p>Welcome, <strong>{user.username}</strong>!</p>
-      <button onClick={onLogout} style={{ padding: '6px 12px', marginTop: '8px' }}>
-        Logout
-      </button>
+      <button onClick={onLogout}>Logout</button>
     </div>
   );
 }
+
 
 export default User;
