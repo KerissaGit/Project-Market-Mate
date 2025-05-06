@@ -44,7 +44,7 @@ class Grocery(db.Model, SerializerMixin):
 
     itemscarts = db.relationship('ItemsCart', back_populates='grocery', cascade='all, delete-orphan')
     deli = db.relationship('Deli', back_populates='groceries')
-    # user = association_proxy('itemscarts', 'user')
+    user = association_proxy('itemscarts', 'user')
     # Fix (if needed): It’s okay as long as you're aware it creates a synthetic relationship
     #  to all users who've added this grocery to a cart. If that’s intentional, keep it.
 
@@ -121,5 +121,4 @@ class User(db.Model, SerializerMixin):
     def authenticate(self, password):
         return check_password_hash(self._password_hash, password)
 
-    # serialize_rules = ('-groceries', '-_password_hash', '-itemscarts.user')
     serialize_rules = ('-groceries', '-_password_hash', '-itemscarts.user', '-created_at', '-updated_at')

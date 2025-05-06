@@ -150,7 +150,7 @@ class Delis(Resource):
             db.session.add(grocery)
             db.session.commit()
 
-            # Optionally, also create an item in the cart (you need user_id in frontend!)
+            # Optionally create an item in the cart (you need user_id in frontend!)
             user_id = session.get('user_id')
             if user_id:
                 item = ItemsCart(
@@ -163,11 +163,39 @@ class Delis(Resource):
                 db.session.add(item)
                 db.session.commit()
 
-            return make_response(grocery.to_dict(), 201)  # return grocery instead of deli
+            return make_response(grocery.to_dict(), 201)  
         except Exception as e:
             return make_response({"error": str(e)}, 400)
 
 
+class CurrentUser(Resource):
+    def get(self):
+        user_id = session.get('user_id')
+        if not user_id:
+            return make_response({'error': 'Unauthorized'}, 401)
+        user = User.query.get({user_id})
+        if not user:
+            return make_response({'error': 'User not found.'}, 404)
+        return make_response(user.to_dict(), 200)
+
+
+class Login(Resource):
+    def post(self):
+        params = request.get_json()
+        user = User.query.filter_by(username=params.get('username')).first()
+        if not user:
+            return make_response({'error': 'User not found.'}, 404)
+        if user.authenticate(params.get('password')):
+            session['user_id'] = user.id
+            return make_response(user.to_dict(), 200)
+        else:
+            return make_response({'error': 'Invalid username or password'}, 401)
+
+
+class Logout(Resource):
+    def delete(self):
+        session.pop('user_id', None)
+        return make_response({}, 204)
 
 
 # App routes
@@ -233,6 +261,9 @@ api.add_resource(SingleCartItem, '/itemscart/<int:item_id>')
 api.add_resource(Groceries, '/groceries')
 api.add_resource(SingleGrocery, '/groceries/<int:grocery_id>')
 api.add_resource(Delis, '/deli')
+api.add_resource(CurrentUser, '/me')
+api.add_resource(Login, '/login')
+api.add_resource(Logout, '/logout')
 
 
 # Run app

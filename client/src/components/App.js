@@ -102,7 +102,7 @@ function App() {
 
   const isRoot = location.pathname === "/";
 
-  
+
   return (
     <div className="body">
       <Header logoutUser={logoutUser} />
