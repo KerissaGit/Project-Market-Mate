@@ -1,7 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 
 function Header() {
+    const [loggedInUser, setLoggedInUser] = useState(null);
+    const location = useLocation();
+
+    useEffect(() => {
+        fetch('/me', { credentials: 'include' })
+        .then(res => res.ok ? res.json() : Promise.reject())
+        .then(user => setLoggedInUser(user))
+        .catch(() => setLoggedInUser(null));
+    }, []);
+
+    function logoutUser() {
+        fetch('/logout', { method: 'DELETE', credentials: 'include' })
+        .then(() => setLoggedInUser(null));
+    }
+
+    const isRoot = location.pathname === "/";
+
+
     return (
         <header className="header">
             <h1>Market Mate</h1>
@@ -22,6 +41,19 @@ function Header() {
                     <li>
                         <NavLink to="/itemscart" className="nav-link">Your Cart</NavLink>
                     </li>
+                    {!loggedInUser && (
+                        <li>
+                            <NavLink to="/login" className="nav-link">Login</NavLink>
+                        </li>
+                    )}
+                    {loggedInUser && (
+                        <>
+                        <li>
+                            <NavLink to="/users" className="nav-link">User</NavLink>
+                            <button onClick={logoutUser} className="nav-logout-button">Logout</button>
+                        </li>
+                        </>
+                    )}
                 </ul>
             </nav>
         </header>

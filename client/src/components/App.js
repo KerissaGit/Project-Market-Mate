@@ -76,7 +76,7 @@
 
 import "../index.css";
 import React, { useState, useEffect } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, Navigate } from "react-router-dom";
 
 import Header from "./Header";
 import Footer from "./Footer";
@@ -100,23 +100,24 @@ function App() {
       .then(() => setLoggedInUser(null));
   }
 
-  const isRoot = location.pathname === "/";
+  const publicPaths = ['/login', '/signup'];
 
+  // if (loggedInUser === null && location.pathname !== "/login" && location.pathname !== "/signup") {
+  //   return <Navigate to="/login" />;
+  // }
+
+  if (!loggedInUser && !publicPaths.includes(location.pathname)) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <div className="body">
-      <Header logoutUser={logoutUser} />
-      {!!loggedInUser ? (
-        <Outlet context={[loggedInUser, setLoggedInUser]} />
-      ) : (
-        <>
-          <User setUser={setLoggedInUser} />
-          {isRoot && <HomePage />}
-        </>
-      )}
+      <Header logoutUser={logoutUser}/>
+      <Outlet context={[loggedInUser, setLoggedInUser]}/>
       <Footer />
     </div>
   );
 }
+
 
 export default App;

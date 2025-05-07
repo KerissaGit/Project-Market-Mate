@@ -23,9 +23,9 @@ class Users(Resource):
     def get(self):
         users = db.session.execute(db.select(User)).scalars().all()
         users_list = [user.to_dict() for user in users]
-        db.session.add(user)
-        db.session.commit()
         return make_response({"users": users_list}, 200)
+        # db.session.add(user)
+        # db.session.commit()
 
 
 class UsersById(Resource):
@@ -173,10 +173,27 @@ class CurrentUser(Resource):
         user_id = session.get('user_id')
         if not user_id:
             return make_response({'error': 'Unauthorized'}, 401)
-        user = User.query.get({user_id})
+        user = User.query.get(user_id)
         if not user:
             return make_response({'error': 'User not found.'}, 404)
         return make_response(user.to_dict(), 200)
+
+
+class Signup(Resource):
+    def post(self):
+        data = request.get_json()
+        try:
+            user = User(
+                username=data['username']
+            )
+            user.password_hash = data['password']  # assumes `password_hash` is a property in your model
+            db.session.add(user)
+            db.session.commit()
+
+            session['user_id'] = user.id
+            return make_response(user.to_dict(), 201)
+        except Exception as e:
+            return make_response({'error': str(e)}, 400)
 
 
 class Login(Resource):
@@ -205,50 +222,50 @@ def get_user_cart(user_id):
     return make_response([item.to_dict() for item in cart_items], 200)
 
 
-@app.route('/signup', methods=['POST'])
-def signup():
-    data = request.get_json()
-    try:
-        user = User(
-            username=data['username'],
-            email=data['email']
-        )
-        user.password_hash = data['password']
-        db.session.add(user)
-        db.session.commit()
+# @app.route('/signup', methods=['POST'])
+# def signup():
+#     data = request.get_json()
+#     try:
+#         user = User(
+#             username=data['username'],
+#             email=data['email']
+#         )
+#         user.password_hash = data['password']
+#         db.session.add(user)
+#         db.session.commit()
 
-        session['user_id'] = user.id
-        return make_response(user.to_dict(), 201)
-    except Exception as e:
-        return make_response({'error': str(e)}, 400)
-
-
-@app.route('/login', methods=['POST'])
-def login():
-    data = request.get_json()
-    user = db.session.execute(
-        db.select(User).filter_by(username=data['username'])
-    ).scalar_one_or_none()
-
-    if user and user.authenticate(data['password']):
-        session['user_id'] = user.id
-        return make_response(user.to_dict(), 200)
-    return make_response({'error': 'Invalid credentials'}, 401)
+#         session['user_id'] = user.id
+#         return make_response(user.to_dict(), 201)
+#     except Exception as e:
+#         return make_response({'error': str(e)}, 400)
 
 
-@app.route('/me', methods=['GET'])
-def get_logged_in_user():
-    user_id = session.get('user_id')
-    if user_id:
-        user = User.query.get(user_id)
-        return make_response(user.to_dict(), 200)
-    return make_response({'error': 'Unauthorized'}, 401)
+# @app.route('/login', methods=['POST'])
+# def login():
+#     data = request.get_json()
+#     user = db.session.execute(
+#         db.select(User).filter_by(username=data['username'])
+#     ).scalar_one_or_none()
+
+#     if user and user.authenticate(data['password']):
+#         session['user_id'] = user.id
+#         return make_response(user.to_dict(), 200)
+#     return make_response({'error': 'Invalid credentials'}, 401)
 
 
-@app.route('/logout', methods=['DELETE'])
-def logout():
-    session.pop('user_id', None)
-    return make_response({}, 204)
+# @app.route('/me', methods=['GET'])
+# def get_logged_in_user():
+#     user_id = session.get('user_id')
+#     if user_id:
+#         user = User.query.get(user_id)
+#         return make_response(user.to_dict(), 200)
+#     return make_response({'error': 'Unauthorized'}, 401)
+
+
+# @app.route('/logout', methods=['DELETE'])
+# def logout():
+#     session.pop('user_id', None)
+#     return make_response({}, 204)
 
 
 
@@ -256,6 +273,10 @@ def logout():
 api.add_resource(Index, '/')
 api.add_resource(Users, '/users')
 api.add_resource(UsersById, '/users/<int:id>')
+api.add_resource(CurrentUser, '/me')
+api.add_resource(Signup, '/signup')
+api.add_resource(Login, '/login')
+api.add_resource(Logout, '/logout')
 api.add_resource(ItemsCarts, '/itemscart')
 api.add_resource(SingleCartItem, '/itemscart/<int:item_id>')
 api.add_resource(Groceries, '/groceries')
