@@ -92,11 +92,11 @@ import { useOutletContext } from "react-router-dom";
 function ItemsCart(){
     const [cartItems, setCartItems] = useState([]);
     const [checkedItems, setCheckedItems] = useState({});
-    const { loggedInUser } = useOutletContext();
+    const { user } = useOutletContext();
 
     useEffect(() => {
-        if (loggedInUser) {
-            fetch(`http://localhost:5555/itemscart/user/${loggedInUser.id}`)
+        if (user) {
+            fetch(`http://localhost:5555/itemscart/user/${user.id}`)
                 .then(res => res.json())
                 .then(data => {
                     setCartItems(data);
@@ -105,7 +105,7 @@ function ItemsCart(){
                     setCheckedItems(checkedInit);
                 });
         }
-    }, [loggedInUser]);
+    }, [user]);
 
     const handleRemove = (id) => {
         fetch(`http://localhost:5555/itemscart/${id}`, {
@@ -133,7 +133,7 @@ function ItemsCart(){
 
     return (
         <div className="items-cart">
-            <h2></h2>
+            <h2 aria-hidden="true"> </h2>
             <div className="cart-scroll">
                 {cartItems.length === 0 ? (
                     <div className="empty-cart-message">

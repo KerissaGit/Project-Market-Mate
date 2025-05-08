@@ -1,6 +1,6 @@
 import "../index.css";
-import '@fortawesome/fontawesome-free/css/all.min.css';
 import React, { useState, useEffect } from "react";
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import { Outlet } from "react-router-dom";
 
 import Header from "./Header";

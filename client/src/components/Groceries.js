@@ -6,7 +6,7 @@ import GroceryForm from "./GroceryForm";
 
 function Groceries() {
     const [groceries, setGroceries] = useState([]);
-    const { loggedInUser } = useOutletContext();
+    const { user } = useOutletContext();
 
     useEffect(() => {
         fetch("http://localhost:5555/groceries")
@@ -25,7 +25,7 @@ function Groceries() {
         <div>
             <div className="grocery-list">
                 {groceries.map((item) => (
-                    <GroceryCards key={item.id} grocery={item} loggedInUser={loggedInUser}/>
+                    <GroceryCards key={item.id} grocery={item} user={user}/>
                 ))}
             </div>
             <GroceryForm onNewGrocery={handleNewGrocery} />
