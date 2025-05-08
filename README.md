@@ -61,7 +61,7 @@ python app.py
 (Optional) If using migrations:
 
 flask db init
-flask db revision --autogenerate -m "Initial migration"
+flask db migrate -m "Initial migration"
 flask db upgrade head
 
 Seed your database:
@@ -77,6 +77,10 @@ cd client
 Install frontend dependencies:
 
 npm install
+npm install formik
+npm install yup
+npm install axios
+npm install @fortawesome/fontawesome-free
 
 Run the React frontend:
 
