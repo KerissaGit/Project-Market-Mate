@@ -45,7 +45,6 @@ function Header() {
                     </ul>
                 </nav>
             </header>
-            <Outlet context={{ loggedInUser }} />
         </>
     );
 }

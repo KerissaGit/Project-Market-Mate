@@ -122,19 +122,71 @@ class SingleGrocery(Resource):
 
 
 
+# class Delis(Resource):
+#     def get(self):
+#         delis = db.session.execute(db.select(Deli)).scalars().all()
+#         return make_response([deli.to_dict() for deli in delis], 200)
+
+#     def post(self):
+#         data = request.get_json()
+#         user_id = session.get('user_id')
+
+#         if not user_id:
+#             return make_response({"error": "User not logged in"}, 401)
+
+#         try:
+#             deli = Deli(
+#                 bread_type=data['bread_type'],
+#                 cheese_type=data['cheese_type'],
+#                 meat_type=data['meat_type'],
+#                 quantity=data.get('quantity', 1)
+#             )
+#             db.session.add(deli)
+#             db.session.commit()
+
+#             # Create a related Grocery item
+#             grocery_name = f"{deli.meat_type} and {deli.cheese_type} on {deli.bread_type} Sandwich/Wrap"
+#             grocery = Grocery(
+#                 name=grocery_name,
+#                 description=f"Custom deli item: {grocery_name}",
+#                 quantity=deli.quantity,
+#                 deli_id=deli.id
+#             )
+#             db.session.add(grocery)
+#             db.session.commit()
+
+#             # Optionally create an item in the cart (you need user_id in frontend!)
+#             user_id = session.get('user_id')
+#             if user_id:
+#                 item = ItemsCart(
+#                     name=grocery.name,
+#                     description=grocery.description,
+#                     quantity=grocery.quantity,
+#                     grocery_id=grocery.id,
+#                     user_id=user_id
+#                 )
+#                 db.session.add(item)
+#                 db.session.commit()
+
+#             return make_response(grocery.to_dict(), 201)  
+#         except Exception as e:
+#             return make_response({"error": str(e)}, 400)
+
+
 class Delis(Resource):
     def get(self):
         delis = db.session.execute(db.select(Deli)).scalars().all()
         return make_response([deli.to_dict() for deli in delis], 200)
 
     def post(self):
-        data = request.get_json()
-        user_id = session.get('user_id')
-
+        user_id = session.get('user_id')  # Must be set from session cookie
         if not user_id:
             return make_response({"error": "User not logged in"}, 401)
 
+        data = request.get_json()
+
         try:
+            # Create Deli
             deli = Deli(
                 bread_type=data['bread_type'],
                 cheese_type=data['cheese_type'],
@@ -144,7 +196,7 @@ class Delis(Resource):
             db.session.add(deli)
             db.session.commit()
 
-            # Create a related Grocery item
+            # Create Grocery
             grocery_name = f"{deli.meat_type} and {deli.cheese_type} on {deli.bread_type} Sandwich/Wrap"
             grocery = Grocery(
                 name=grocery_name,
@@ -155,22 +207,33 @@ class Delis(Resource):
             db.session.add(grocery)
             db.session.commit()
 
-            # Optionally create an item in the cart (you need user_id in frontend!)
-            user_id = session.get('user_id')
-            if user_id:
-                item = ItemsCart(
-                    name=grocery.name,
-                    description=grocery.description,
-                    quantity=grocery.quantity,
-                    grocery_id=grocery.id,
-                    user_id=user_id
-                )
-                db.session.add(item)
-                db.session.commit()
+            # Add to Cart
+            item = ItemsCart(
+                name=grocery.name,
+                description=grocery.description,
+                quantity=grocery.quantity,
+                grocery_id=grocery.id,
+                user_id=user_id
+            )
+            db.session.add(item)
+            db.session.commit()
 
-            return make_response(grocery.to_dict(), 201)  
+            return make_response(grocery.to_dict(), 201)
         except Exception as e:
+            db.session.rollback()
             return make_response({"error": str(e)}, 400)
+
+
+class SingleDeli(Resource):
+    def get(self, deli_id):
+        deli = Deli.query.get_or_404(deli_id)
+        return make_response(deli.to_dict(), 200)
+
+    def delete(self, deli_id):
+        deli = Deli.query.get_or_404(deli_id)
+        db.session.delete(deli)
+        db.session.commit()
+        return make_response({}, 204)
 
 
 class CurrentUser(Resource):
@@ -291,6 +354,8 @@ api.add_resource(SingleCartItem, '/itemscart/<int:item_id>')
 api.add_resource(Groceries, '/groceries')
 api.add_resource(SingleGrocery, '/groceries/<int:grocery_id>')
 api.add_resource(Delis, '/deli')
+api.add_resource(SingleDeli, '/deli/<int:deli_id>')
+
 
 
 # Run app
