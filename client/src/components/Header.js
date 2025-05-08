@@ -1,12 +1,14 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import MarketLogo from "./MarketLogo";
 
 function Header({ logoutUser, user }) {
     const location = useLocation();
 
     return (
         <header className="header">
-            <h1>Market Mate</h1>
+            {/* <h1>Market Mate</h1> */}
+            <MarketLogo />
             <nav className="nav-bar">
                 <ul className="nav-links">
                     <li><NavLink to="/" className="nav-link" end>Home</NavLink></li>

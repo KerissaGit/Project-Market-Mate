@@ -1,6 +1,7 @@
 import React from "react";
 import { useOutletContext } from "react-router-dom";
 import Auth from "./Auth";
+import MarketLogo from "./MarketLogo";
 
 function HomePage() {
   const { user, setUser } = useOutletContext();
