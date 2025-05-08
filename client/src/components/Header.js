@@ -23,7 +23,7 @@ function Header({ logoutUser, user }) {
                         <li><NavLink to="/login" className="nav-link">Login</NavLink></li>
                     ) : (
                         <li>
-                            <button onClick={logoutUser} className="nav-logout-button">Logout</button>
+                            <button onClick={logoutUser} className="logout-button">Logout</button>
                         </li>
                     )}
                 </ul>
