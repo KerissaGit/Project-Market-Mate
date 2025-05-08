@@ -207,7 +207,7 @@ class Signup(Resource):
             user = User(
                 username=data['username']
             )
-            user.password_hash = data['password']  # assumes `password_hash` is a property in your model
+            user.password_hash = data['password']  
             db.session.add(user)
             db.session.commit()
 
@@ -235,12 +235,6 @@ class Logout(Resource):
         session.pop('user_id', None)
         return make_response({}, 204)
 
-
-# App routes
-@app.route('/itemscart/user/<int:user_id>')
-def get_user_cart(user_id):
-    cart_items = ItemsCart.query.filter_by(user_id=user_id).all()
-    return make_response([item.to_dict() for item in cart_items], 200)
 
 
 
