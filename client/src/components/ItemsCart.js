@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom"
 
-//This file will need to be updated after the User/Auth is working and established
-
 
 function ItemsCart(){
     const [cartItems, setCartItems] = useState([]);
     const [checkedItems, setCheckedItems] = useState({});
-    // const [loggedInUser] = useOutletContext();
     const { loggedInUser } = useOutletContext();
 
 
