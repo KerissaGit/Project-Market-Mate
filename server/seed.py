@@ -79,6 +79,12 @@ def create_groceries(delis):
         Grocery(name="Spinach", description="Vegetable", quantity=1),
         Grocery(name="Bell Peppers", description="Vegetable", quantity=1),
 
+        # Desserts
+        Grocery(name="Chocolate Cake", description="Dessert", quantity=1),
+        Grocery(name="Ice Cream", description="Dessert", quantity=1),
+        Grocery(name="Cheesecake", description="Dessert", quantity=1),
+        Grocery(name="Brownies", description="Dessert", quantity=1),
+
         # Condiments
         Grocery(name="Ketchup", description="Condiment", quantity=1),
         Grocery(name="Mustard", description="Condiment", quantity=1),

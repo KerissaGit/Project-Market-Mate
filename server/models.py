@@ -31,7 +31,7 @@ class Grocery(db.Model, SerializerMixin):
     __tablename__ = 'groceries'
 
     valid_descriptions = [
-        "Bread", "Cheese", "Condiment", "Dairy", "Eggs", "Fruit", "Household",
+        "Bread", "Cheese", "Condiment", "Dairy", "Dessert", "Eggs", "Fruit", "Household",
         "Meat", "Pizza", "Vegetable", "Deli Item", "Other"
     ]
 
