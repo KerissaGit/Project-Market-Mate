@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import GroceryCards from "./GroceryCards";
 import GroceryForm from "./GroceryForm";
 
 
 function Groceries() {
     const [groceries, setGroceries] = useState([]);
+    const { loggedInUser } = useOutletContext();
 
     useEffect(() => {
         fetch("http://localhost:5555/groceries")
@@ -21,13 +23,14 @@ function Groceries() {
 
     return (
         <div>
-            <h2>Groceries Page</h2>
             <div className="grocery-list">
                 {groceries.map((item) => (
-                    <GroceryCards key={item.id} grocery={item} />
+                    <GroceryCards key={item.id} grocery={item} loggedInUser={loggedInUser}/>
                 ))}
             </div>
             <GroceryForm onNewGrocery={handleNewGrocery} />
+            <br></br>
+            <br></br>
         </div>
     );
 }

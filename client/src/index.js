@@ -1,26 +1,29 @@
 import React from "react";
-import { createRoot } from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import App from "./components/App";
+import HomePage from "./components/HomePage";
+import Groceries from "./components/Groceries";
+import Deli from "./components/Deli";
+import ItemsCart from "./components/ItemsCart";
+import User from "./components/User";
+import Auth from "./components/Auth";
 
 
-
-const container = document.getElementById("root");
-const root = createRoot(container);
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    <App />
+    <Routes>
+      <Route path="/" element={<App />}>
+        <Route index element={<HomePage />} />
+        <Route path="users" element={<User />} />
+        <Route path="login" element={<Auth />} />
+        <Route path="signup" element={<Auth />} />
+        <Route path="groceries" element={<Groceries />} />
+        <Route path="deli" element={<Deli />} />
+        <Route path="itemscart" element={<ItemsCart />} />
+      </Route>
+    </Routes>
   </BrowserRouter>
 );
-
-
-
-
-// import React from "react";
-// import { createRoot } from "react-dom/client";
-// import { RouterProvider } from "react-router-dom";  // Import RouterProvider
-// import router from './router';  // Import the router setup
-
-// const container = document.getElementById("root");
-// const root = createRoot(container);
-// root.render(<RouterProvider router={router} />);  // Use RouterProvider with the router
