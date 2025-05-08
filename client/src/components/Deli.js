@@ -47,7 +47,7 @@ function Deli() {
 
     return (
         <div className="deli-form grocery-form">
-            <h3>Create Custom Sandwich/Wrap</h3>
+            <h2>Create Custom Sandwich/Wrap</h2>
             {error && <p style={{ color: "red" }}>{error}</p>}
             <form onSubmit={handleSubmit}>
                 <label>Bread/Wrap Type:</label>

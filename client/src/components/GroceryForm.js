@@ -52,6 +52,7 @@ function GroceryForm({ onNewGrocery }) {
                 <option value="Cheese">Cheese</option>
                 <option value="Condiment">Condiment</option>
                 <option value="Dairy">Dairy</option>
+                <option value="Dessert">Dessert</option>
                 <option value="Eggs">Eggs</option>
                 <option value="Fruit">Fruit</option>
                 <option value="Household">Household</option>
