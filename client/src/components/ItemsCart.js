@@ -7,7 +7,9 @@ import { useOutletContext } from "react-router-dom"
 function ItemsCart(){
     const [cartItems, setCartItems] = useState([]);
     const [checkedItems, setCheckedItems] = useState({});
-    const [loggedInUser] = useOutletContext();
+    // const [loggedInUser] = useOutletContext();
+    const { loggedInUser } = useOutletContext();
+
 
 
     useEffect(() => {

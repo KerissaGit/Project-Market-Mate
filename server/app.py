@@ -79,6 +79,11 @@ class SingleCartItem(Resource):
         return make_response({}, 204)
 
 
+class UserCart(Resource):
+    def get(self, user_id):
+        cart_items = ItemsCart.query.filter_by(user_id=user_id).all()
+        return make_response([item.to_dict() for item in cart_items], 200)
+
 
 class Groceries(Resource):
     def get(self):
@@ -222,6 +227,9 @@ def get_user_cart(user_id):
     return make_response([item.to_dict() for item in cart_items], 200)
 
 
+
+
+
 # @app.route('/signup', methods=['POST'])
 # def signup():
 #     data = request.get_json()
@@ -278,6 +286,7 @@ api.add_resource(Signup, '/signup')
 api.add_resource(Login, '/login')
 api.add_resource(Logout, '/logout')
 api.add_resource(ItemsCarts, '/itemscart')
+api.add_resource(UserCart, '/itemscart/user/<int:user_id>')
 api.add_resource(SingleCartItem, '/itemscart/<int:item_id>')
 api.add_resource(Groceries, '/groceries')
 api.add_resource(SingleGrocery, '/groceries/<int:grocery_id>')

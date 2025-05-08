@@ -22,41 +22,31 @@ function Header() {
 
 
     return (
-        <header className="header">
-            <h1>Market Mate</h1>
-            <nav className="nav-bar">
-                <ul className="nav-links">
-                    <li>
-                        <NavLink to="/" className="nav-link" end>Home</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/users" className="nav-link">Users</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/groceries" className="nav-link">Groceries</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/deli" className="nav-link">Deli</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/itemscart" className="nav-link">Your Cart</NavLink>
-                    </li>
-                    {!loggedInUser && (
-                        <li>
-                            <NavLink to="/login" className="nav-link">Login</NavLink>
-                        </li>
-                    )}
-                    {loggedInUser && (
-                        <>
-                        <li>
-                            <NavLink to="/users" className="nav-link">User</NavLink>
-                            <button onClick={logoutUser} className="nav-logout-button">Logout</button>
-                        </li>
-                        </>
-                    )}
-                </ul>
-            </nav>
-        </header>
+        <>
+            <header className="header">
+                <h1>Market Mate</h1>
+                <nav className="nav-bar">
+                    <ul className="nav-links">
+                        <li><NavLink to="/" className="nav-link" end>Home</NavLink></li>
+                        <li><NavLink to="/groceries" className="nav-link">Groceries</NavLink></li>
+                        <li><NavLink to="/deli" className="nav-link">Deli</NavLink></li>
+                        <li><NavLink to="/itemscart" className="nav-link">Your Cart</NavLink></li>
+                        {!loggedInUser && (
+                            <li><NavLink to="/login" className="nav-link">Login</NavLink></li>
+                        )}
+                        {loggedInUser && (
+                            <>
+                            <li>
+                                {/* <NavLink to="/users" className="nav-link">User</NavLink> */}
+                                <button onClick={logoutUser} className="nav-logout-button">Logout</button>
+                            </li>
+                            </>
+                        )}
+                    </ul>
+                </nav>
+            </header>
+            <Outlet context={{ loggedInUser }} />
+        </>
     );
 }
 

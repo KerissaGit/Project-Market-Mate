@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
+
 
 function Auth({ setUser }) {
   const location = useLocation();

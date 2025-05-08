@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 
 
-function GroceryCards({ grocery }) {
+function GroceryCards({ grocery, loggedInUser }) {
     const { id, name, description } = grocery;
     const [quantity, setQuantity] = useState(1);
 
     const handleAddToCart = () => {
+        if (!loggedInUser) {
+            alert("Please log in to add items to your cart.");
+            return;
+        }
+
         const newItem = {
             name,
             description,
             quantity,
             grocery_id: id,
-            user_id: 1 // TEMP: Replace with real user ID later
+            user_id: loggedInUser.id
         };
 
         fetch("http://localhost:5555/itemscart", {
