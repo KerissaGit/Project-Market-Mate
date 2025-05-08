@@ -23,13 +23,14 @@ function Groceries() {
 
     return (
         <div>
-            <h2>Groceries Page</h2>
             <div className="grocery-list">
                 {groceries.map((item) => (
                     <GroceryCards key={item.id} grocery={item} loggedInUser={loggedInUser}/>
                 ))}
             </div>
             <GroceryForm onNewGrocery={handleNewGrocery} />
+            <br></br>
+            <br></br>
         </div>
     );
 }

@@ -200,7 +200,8 @@ class Delis(Resource):
             grocery_name = f"{deli.meat_type} and {deli.cheese_type} on {deli.bread_type} Sandwich/Wrap"
             grocery = Grocery(
                 name=grocery_name,
-                description=f"Custom deli item: {grocery_name}",
+                # description=f"Custom deli item: {grocery_name}",
+                description="Deli Item",
                 quantity=deli.quantity,
                 deli_id=deli.id
             )
@@ -251,6 +252,10 @@ class Signup(Resource):
     def post(self):
         data = request.get_json()
         try:
+            existing_user = User.query.filter_by(username=data['username']).first()
+            if existing_user:
+                return make_response({'error': 'Username already taken.'}, 400)
+
             user = User(
                 username=data['username']
             )

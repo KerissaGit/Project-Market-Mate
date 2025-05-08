@@ -42,25 +42,21 @@ class Grocery(db.Model, SerializerMixin):
     quantity = db.Column(db.Integer, default=1)
     deli_id = db.Column(db.Integer, db.ForeignKey('delis.id'), nullable=True)
 
-    # Added to help with combining Deli
-    def to_dict(self):  
-    return {
-        'id': self.id,
-        'name': self.name,
-        'description': self.description,
-        'quantity': self.quantity,
-        'image': self.image,
-        'deli': self.deli.to_dict() if self.deli else None
-    }
-    
     itemscarts = db.relationship('ItemsCart', back_populates='grocery', cascade='all, delete-orphan')
     deli = db.relationship('Deli', back_populates='groceries')
     user = association_proxy('itemscarts', 'user')
-    # Fix (if needed): It’s okay as long as you're aware it creates a synthetic relationship
-    #  to all users who've added this grocery to a cart. If that’s intentional, keep it.
 
     serialize_rules = ('-itemscarts', '-deli')
 
+    def to_dict(self):  
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'quantity': self.quantity,
+            'image': self.image,
+            'deli': self.deli.to_dict() if self.deli else None
+        }
 
     @validates('description')
     def validate_description(self, key, value):
