@@ -22,7 +22,7 @@ function App() {
 
   return (
     <div className="body">
-      <Header logoutUser={logoutUser} />
+      <Header logoutUser={logoutUser} loggedInUser={loggedInUser} />
       <Outlet context={{ setUser: setLoggedInUser, loggedInUser }} />
       <Footer />
     </div>

@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useOutletContext } from 'react-router-dom';
+import { useNavigate, useLocation, useOutletContext } from 'react-router-dom';
 
 
-function Auth({ setUser }) {
+function Auth() {
   const location = useLocation();
   const [isLogin, setIsLogin] = useState(location.pathname === "/login");
+  const { setUser } = useOutletContext(); 
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -29,10 +29,10 @@ function Auth({ setUser }) {
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
         const endpoint = isLogin ? '/login' : '/signup';
-        const response = await axios.post(endpoint, values);
+        const response = await axios.post(endpoint, values, { withCredentials: true });
         if (response.status === 200) {
-          setUser(response.data);
-          navigate('/');
+          setUser(response.data); 
+          navigate('/');          
         }
       } catch (error) {
         const msg = error.response?.data?.error || 'Something went wrong';
@@ -102,5 +102,6 @@ function Auth({ setUser }) {
     </div>
   );
 }
+
 
 export default Auth;
