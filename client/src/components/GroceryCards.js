@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
 
-function GroceryCards({ grocery, loggedInUser }) {
+function GroceryCards({ grocery, user }) {
     const { id, name, description } = grocery;
     const [quantity, setQuantity] = useState(1);
 
     const handleAddToCart = () => {
-        if (!loggedInUser) {
+        if (!user) {
             alert("Please log in to add items to your cart.");
             return;
         }
@@ -16,7 +16,7 @@ function GroceryCards({ grocery, loggedInUser }) {
             description,
             quantity,
             grocery_id: id,
-            user_id: loggedInUser.id
+            user_id: user.id
         };
 
         fetch("http://localhost:5555/itemscart", {

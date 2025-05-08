@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
 function Deli() {
-    const { loggedInUser } = useOutletContext();
+    const { user } = useOutletContext();
 
     const [bread, setBread] = useState("");
     const [cheese, setCheese] = useState("");
@@ -12,7 +12,7 @@ function Deli() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (!loggedInUser) {
+        if (!user) {
             setError("User must be logged in to create a custom item.");
             return;
         }

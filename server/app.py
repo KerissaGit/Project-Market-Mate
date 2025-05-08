@@ -9,7 +9,9 @@ from flask_cors import CORS
 # Models
 from models import User, ItemsCart, Grocery, Deli, db
 
-CORS(app, supports_credentials=True)
+# CORS(app, supports_credentials=True)
+CORS(app, supports_credentials=True, origins=['http://localhost:3000'])
+
 
 
 # API Resources
@@ -194,6 +196,15 @@ class CurrentUser(Resource):
         if not user:
             return make_response({'error': 'User not found.'}, 404)
         return make_response(user.to_dict(), 200)
+
+# class CurrentUser(Resource):
+#     def get(self):
+#         user_id = session.get('user_id')
+#         if not user_id:
+#             return make_response({'error': 'Not logged in'}, 401)
+#         user = User.query.get(user_id)
+#         return make_response(user.to_dict(), 200)
+
 
 
 class Signup(Resource):
