@@ -121,58 +121,6 @@ class SingleGrocery(Resource):
         return make_response({}, 204)
 
 
-
-# class Delis(Resource):
-#     def get(self):
-#         delis = db.session.execute(db.select(Deli)).scalars().all()
-#         return make_response([deli.to_dict() for deli in delis], 200)
-
-#     def post(self):
-#         data = request.get_json()
-#         user_id = session.get('user_id')
-
-#         if not user_id:
-#             return make_response({"error": "User not logged in"}, 401)
-
-#         try:
-#             deli = Deli(
-#                 bread_type=data['bread_type'],
-#                 cheese_type=data['cheese_type'],
-#                 meat_type=data['meat_type'],
-#                 quantity=data.get('quantity', 1)
-#             )
-#             db.session.add(deli)
-#             db.session.commit()
-
-#             # Create a related Grocery item
-#             grocery_name = f"{deli.meat_type} and {deli.cheese_type} on {deli.bread_type} Sandwich/Wrap"
-#             grocery = Grocery(
-#                 name=grocery_name,
-#                 description=f"Custom deli item: {grocery_name}",
-#                 quantity=deli.quantity,
-#                 deli_id=deli.id
-#             )
-#             db.session.add(grocery)
-#             db.session.commit()
-
-#             # Optionally create an item in the cart (you need user_id in frontend!)
-#             user_id = session.get('user_id')
-#             if user_id:
-#                 item = ItemsCart(
-#                     name=grocery.name,
-#                     description=grocery.description,
-#                     quantity=grocery.quantity,
-#                     grocery_id=grocery.id,
-#                     user_id=user_id
-#                 )
-#                 db.session.add(item)
-#                 db.session.commit()
-
-#             return make_response(grocery.to_dict(), 201)  
-#         except Exception as e:
-#             return make_response({"error": str(e)}, 400)
-
-
 class Delis(Resource):
     def get(self):
         delis = db.session.execute(db.select(Deli)).scalars().all()
@@ -294,54 +242,6 @@ def get_user_cart(user_id):
     cart_items = ItemsCart.query.filter_by(user_id=user_id).all()
     return make_response([item.to_dict() for item in cart_items], 200)
 
-
-
-
-
-# @app.route('/signup', methods=['POST'])
-# def signup():
-#     data = request.get_json()
-#     try:
-#         user = User(
-#             username=data['username'],
-#             email=data['email']
-#         )
-#         user.password_hash = data['password']
-#         db.session.add(user)
-#         db.session.commit()
-
-#         session['user_id'] = user.id
-#         return make_response(user.to_dict(), 201)
-#     except Exception as e:
-#         return make_response({'error': str(e)}, 400)
-
-
-# @app.route('/login', methods=['POST'])
-# def login():
-#     data = request.get_json()
-#     user = db.session.execute(
-#         db.select(User).filter_by(username=data['username'])
-#     ).scalar_one_or_none()
-
-#     if user and user.authenticate(data['password']):
-#         session['user_id'] = user.id
-#         return make_response(user.to_dict(), 200)
-#     return make_response({'error': 'Invalid credentials'}, 401)
-
-
-# @app.route('/me', methods=['GET'])
-# def get_logged_in_user():
-#     user_id = session.get('user_id')
-#     if user_id:
-#         user = User.query.get(user_id)
-#         return make_response(user.to_dict(), 200)
-#     return make_response({'error': 'Unauthorized'}, 401)
-
-
-# @app.route('/logout', methods=['DELETE'])
-# def logout():
-#     session.pop('user_id', None)
-#     return make_response({}, 204)
 
 
 

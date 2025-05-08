@@ -120,20 +120,6 @@ def create_users():
 
 
 
-# Needs to be updated and modified
-# def create_items_cart(groceries, deli):
-#     itemcarts = []
-#     for _ in range(15):
-#         name = fake.name()
-
-#         itemscart = ItemsCart(
-#             grocery_id=randint(1, len(groceries))
-#             deli_id=randint(1, len(delis))
-#         )
-#         itemcarts.append(itemscart)
-
-#     return itemscarts
-
 
 
 
