@@ -14,7 +14,7 @@ function HomePage() {
 
       {user ? (
         <div className="welcome-message">
-          <p className="homepage-welcome">Welcome back, <strong>{user.username}</strong>!</p>
+          <p className="homepage-welcome">Welcome Back <strong>{user.username}</strong>!</p>
         </div>
       ) : (
         <Auth setUser={setUser} />
