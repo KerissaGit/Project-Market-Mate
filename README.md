@@ -1,4 +1,4 @@
-# 🛒🥪 Market Mate 🧑‍🌾✅
+# 🛒 🥪 Market Mate 🧑‍🌾 ✅
 
 Welcome to **Market Mate** — a full-stack web application for creating and managing your grocery list, building custom deli sandwiches, and tracking items in your personal cart. This app allows users to sign up, log in, browse a catalog of grocery and deli items, create custom sandwiches, and manage everything in a personalized, user-specific cart.
 
@@ -120,6 +120,7 @@ project-root/
 🌱 Seeding Example (Faker)
 
 The backend includes a seed.py script using Faker to populate test users, groceries, and sample deli combinations for easy development and demo.
+
 🙏 Acknowledgments
 
 Created and developed by Kerissa. Thank you to the teachers, students and staff at Flatiron school for helping me acheive my first solo project.
