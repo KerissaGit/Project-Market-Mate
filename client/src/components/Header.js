@@ -1,10 +1,8 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
-function Header({ logoutUser, loggedInUser }) {
+function Header({ logoutUser, user }) {
     const location = useLocation();
-
-    const isRoot = location.pathname === "/";
 
     return (
         <header className="header">
@@ -13,7 +11,7 @@ function Header({ logoutUser, loggedInUser }) {
                 <ul className="nav-links">
                     <li><NavLink to="/" className="nav-link" end>Home</NavLink></li>
 
-                    {loggedInUser && (
+                    {user && (
                         <>
                             <li><NavLink to="/groceries" className="nav-link">Groceries</NavLink></li>
                             <li><NavLink to="/deli" className="nav-link">Deli</NavLink></li>
@@ -21,7 +19,7 @@ function Header({ logoutUser, loggedInUser }) {
                         </>
                     )}
 
-                    {!loggedInUser ? (
+                    {!user ? (
                         <li><NavLink to="/login" className="nav-link">Login</NavLink></li>
                     ) : (
                         <li>
@@ -35,4 +33,3 @@ function Header({ logoutUser, loggedInUser }) {
 }
 
 export default Header;
-

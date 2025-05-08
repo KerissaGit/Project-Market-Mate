@@ -6,28 +6,27 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 function App() {
-  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     fetch('/me', { credentials: 'include' })
       .then(res => res.ok ? res.json() : Promise.reject())
-      .then(user => setLoggedInUser(user))
-      .catch(() => setLoggedInUser(null));
+      .then(user => setUser(user))
+      .catch(() => setUser(null));
   }, []);
 
   function logoutUser() {
     fetch('/logout', { method: 'DELETE', credentials: 'include' })
-      .then(() => setLoggedInUser(null));
+      .then(() => setUser(null));
   }
 
   return (
     <div className="body">
-      <Header logoutUser={logoutUser} loggedInUser={loggedInUser} />
-      <Outlet context={{ setUser: setLoggedInUser, loggedInUser }} />
+      <Header logoutUser={logoutUser} user={user} />
+      <Outlet context={{ user, setUser }} />
       <Footer />
     </div>
   );
 }
 
 export default App;
-
