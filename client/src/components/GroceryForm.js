@@ -30,8 +30,8 @@ function GroceryForm({ onNewGrocery }) {
 
     return (
         <form onSubmit={handleSubmit} className="grocery-form">
-            <h3>Don't see an item you want?</h3>
-            <h3>Add a Grocery Item Here</h3>
+            <h2>Don't see an item you want?</h2>
+            <h2>Add a Grocery Item Here</h2>
 
             <input 
                 name="name" 

@@ -5,8 +5,7 @@ function HomePage() {
     <div className="homepage-container">
       <h1 className="homepage-title">Welcome to Market Mate!</h1>
       <p className="homepage-subtitle">
-        We're here to help you stay on track with all your groceries.
-      </p>
+      Market Mate is your all-in-one solution for managing grocery lists and crafting custom deli sandwiches. Start by signing up or logging in to unlock your personalized cart. From there, browse our grocery items, add what you need, or visit the deli to build your perfect sandwich — which gets added to your list automatically. Keep track of everything in your cart, and enjoy a smooth, intuitive shopping experience from start to finish!      </p>
     </div>
   );
 }
